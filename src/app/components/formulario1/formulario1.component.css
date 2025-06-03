@@ -1,0 +1,14 @@
+.boton-enviar {
+  background-color: #C9B243 !important;
+  color: black !important;
+  font-weight: bold !important;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: white !important;
+    color: #C9B243 !important;
+  }
+
+}

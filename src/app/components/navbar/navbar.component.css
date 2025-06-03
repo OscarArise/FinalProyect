@@ -1,0 +1,45 @@
+.contenedor {
+  color: #fff;
+  padding: 12px 0;
+  border-bottom: 2px solid #C9B243;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: linear-gradient(to right, #1a1a1a, #2e2e2e, #C9B243, #ffffff);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 6px 14px;
+  border-radius: 100px;
+  transition: background 0.2s, color 0.2s;
+}
+
+nav a:hover,
+nav a.active {
+  background: #C9B243;
+  color: #1a1a1a; /* texto oscuro para buen contraste con el dorado */
+}
+
+nav span {
+  color: #C9B243;
+  font-weight: bold;
+}
+
+.user-icon {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+  transition: color 0.2s;
+  color: inherit; /* Muy importante: hereda el color del enlace */
+}
+
+
+

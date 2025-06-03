@@ -1,0 +1,10 @@
+[
+  { "nombre": "Arnold Schwarzenegger", "especialidad": "Crossfit", "imagen": "Arnold.jpg", "clases": ["CrossFit"] },
+  { "nombre": "Cory Everson", "especialidad": "Pilates", "imagen": "Cory.jpg", "clases": ["Pilates"] },
+  { "nombre": "Ronnie Coleman", "especialidad": "Boxeo", "imagen": "Ronnie.jpg", "clases": ["Kickboxing"] },
+  { "nombre": "Dana Linn Bailey", "especialidad": "Yoga", "imagen": "Danna.jpg", "clases": ["Yoga"] },
+  { "nombre": "Jay Cutler", "especialidad": "Entrenamiento Funcional", "imagen": "Jay.jpg", "clases": ["CrossFit"] },
+  { "nombre": "Stephanie Sanzo ", "especialidad": "Cardio", "imagen": "Stephanie.jpg", "clases": ["Kickboxing"] },
+  { "nombre": "Chris Bumstead ", "especialidad": "Pesas", "imagen": "Cbum.jpg", "clases": ["Pilates"] },
+  { "nombre": "Jeff Nippard ", "especialidad": "Flexibilidad", "imagen": "Jeff.jpg", "clases": ["Yoga"] }
+]

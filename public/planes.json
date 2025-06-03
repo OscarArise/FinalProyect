@@ -1,0 +1,22 @@
+[
+  {
+    "nombre": "Plan Básico",
+    "descripcion": "Acceso a todas las áreas del gimnasio.",
+    "precio": 500,
+    "duracion": "1 Mes"
+  },
+  {
+    "nombre": "Plan Premium",
+    "descripcion": "Acceso a clases personalizadas y áreas exclusivas.",
+    "precio": 900,
+    "duracion": "1 Mes"
+  },
+  {
+    "nombre": "Plan Anual",
+    "descripcion": "Acceso completo todo el año, con beneficios adicionales.",
+    "precio": 9000,
+    "duracion": "12 Meses"
+  }
+]
+
+
