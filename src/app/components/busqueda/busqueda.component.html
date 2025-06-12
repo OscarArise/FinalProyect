@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  @if (miEjercicio === undefined || miEjercicio === null) {
+    <div class="row animate__animated animate__backInLeft">
+      <div class="col-md-12">
+        <div class="alert alert-info bg-light text-dark border border-warning rounded">
+          <p>No existen resultados para <span class="text-oro">{{ nombreEjercicio }}</span></p>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="card-ejercicio animate__animated animate__fadeIn">
+      <h3 class="text-oro mb-2">{{ miEjercicio.name }}</h3>
+      <p><strong>Músculo:</strong> {{ miEjercicio.muscle }}</p>
+      <p><strong>Tipo:</strong> {{ miEjercicio.type }}</p>
+      <p><strong>Equipo:</strong> {{ miEjercicio.equipment }}</p>
+      <p><strong>Dificultad:</strong> {{ miEjercicio.difficulty }}</p>
+      <p><strong>Instrucciones:</strong> {{ miEjercicio.instructions }}</p>
+
+      <button class="btn-volver mt-3" (click)="redirectTo()">Volver</button>
+    </div>
+  }
+</div>

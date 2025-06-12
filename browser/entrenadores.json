@@ -1,0 +1,10 @@
+[
+  { "nombre": "Juan Pérez", "especialidad": "Crossfit", "imagen": "juan.jpg", "clases": ["CrossFit"] },
+  { "nombre": "Laura García", "especialidad": "Pilates", "imagen": "laura.jpg", "clases": ["Pilates"] },
+  { "nombre": "Pedro Martínez", "especialidad": "Boxeo", "imagen": "pedro.jpg", "clases": ["Kickboxing"] },
+  { "nombre": "Ana López", "especialidad": "Yoga", "imagen": "ana.jpg", "clases": ["Yoga"] },
+  { "nombre": "Miguel Torres", "especialidad": "Entrenamiento Funcional", "imagen": "miguel.jpg", "clases": ["CrossFit"] },
+  { "nombre": "Sara Díaz", "especialidad": "Cardio", "imagen": "sara.jpg", "clases": ["Kickboxing"] },
+  { "nombre": "Daniel Gómez", "especialidad": "Pesas", "imagen": "daniel.jpg", "clases": ["Pilates"] },
+  { "nombre": "Carlos Ramírez", "especialidad": "Flexibilidad", "imagen": "assets/carlos.jpg", "clases": ["Yoga"] }
+]

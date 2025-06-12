@@ -1,0 +1,15 @@
+<div class="contenedor">
+    <nav>
+      <a routerLink=""><mat-icon class="user-icon">home</mat-icon>Home</a>
+      <a routerLink="/conocenos"><mat-icon class="user-icon">info</mat-icon>About</a>
+      <a routerLink="/suscripcion"><mat-icon class="user-icon">credit_card</mat-icon>Subscriptions</a>
+      <a routerLink="/usuario">
+        @if(usuario === '' || usuario === undefined || usuario === null){
+            <mat-icon class="user-icon">person</mat-icon>Usuario 
+        }@else{
+            <span style="color: white;">Hola! {{usuario}}</span>
+        }
+      </a>
+    </nav>
+
+  </div>

@@ -1,0 +1,119 @@
+header {
+    background-image: url(/head3.png);
+    background-size: cover;       /* Ajusta la imagen al tamaño */
+    background-position: center;  /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que se repita */
+    min-height: 150px;            /* Asegura que se vea */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 0;
+    border-bottom: 3px solid #E0aa3e;
+  }
+  
+  header img {
+  width: 109px;
+  height: 110px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid #E0aa3e;
+  margin-right: 15px;
+  margin-left: 15px;
+  }
+  
+  header p {
+    font-size: 2.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: white;
+    margin: 0;
+    margin-right: 820px;
+  }
+
+header p::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 39%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 100%
+  );
+  animation: shine 1.9s ease forwards; /* Solo una vez */
+}
+
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-menu-panel {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.mat-menu-content {
+  padding: 0 !important;
+}
+
+
+/* Estilos para los botones */
+.btn1, .btn2, .btn3 {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: white; /* Fondo blanco opaco */
+  border-radius: 2px;
+}
+
+/* Estilos adicionales para los botones */
+.btn1 {
+  border-top: 3px solid #C9B243; /* Personalización del borde */
+}
+
+.btn2 {
+  border-top: 3px solid #C9B243; /* Personalización del borde */
+}
+
+.btn3 {
+  border-top: 3px solid #C9B243; /* Personalización del borde */
+  border-bottom: 3px solid #C9B243;
+}
+
+/* Estilo base del botón */
+.header-container button[mat-icon-button] {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #C9B243;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Estilo del ícono */
+.header-container mat-icon {
+  font-size: 25px;
+  color: black;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Animación al hacer hover */
+.header-container button[mat-icon-button]:hover mat-icon {
+  transform: rotate(360deg);
+}

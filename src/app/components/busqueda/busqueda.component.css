@@ -1,0 +1,47 @@
+.card-ejercicio {
+  background-color: #fefcf5; /* fondo beige claro */
+  border: 2px solid #c9b243; /* borde dorado */
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  margin: 60px ;
+}
+
+.card-ejercicio h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.card-ejercicio p {
+  margin-bottom: 12px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.text-oro {
+  color: #c9b243;
+  font-weight: bold;
+}
+
+.btn-volver {
+  background-color: #c9b243; /* dorado */
+  color: #000000; /* texto negro */
+  border: 2px solid #c9b243;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(201, 178, 67, 0.25);
+}
+
+.btn-volver:hover {
+  background-color: #ffffff;
+  color: #c9b243;
+  box-shadow: 0 6px 16px rgba(201, 178, 67, 0.35);
+}
+
