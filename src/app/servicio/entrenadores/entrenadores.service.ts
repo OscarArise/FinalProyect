@@ -8,6 +8,6 @@ export class EntrenadoresService {
   constructor(private http: HttpClient) {}
 
   obtenerEntrenadores() {
-    return this.http.get<any[]>('entrenadores.json');
+    return this.http.get<any[]>('/entrenadores.json');
   }
 }
