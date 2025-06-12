@@ -4,7 +4,6 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { firebaseConfig } from './firebase.config'; // Asegúrate que esta ruta sea correcta
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment.development';
