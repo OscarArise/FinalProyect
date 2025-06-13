@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential, updateProfile, sendPasswordResetEmail } from '@angular/fire/auth';
+import { Observable, Observer } from 'rxjs';  // Asegúrate de importar Observable y Observer
+
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +34,14 @@ export class AutenticacionService {
   // Restablecer contraseña
   resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(this.auth, email);
+  }
+
+   // Obtener el estado de autenticación (si el usuario está logueado)
+  getAuthState(): Observable<any> {
+    return new Observable(observer => {
+      this.auth.onAuthStateChanged(user => {
+        observer.next(user);  // Devuelve el usuario si está logueado
+      });
+    });
   }
 }

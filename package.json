@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.0.3",
     "@angular/cdk": "^19.2.14",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -24,6 +25,8 @@
     "boxicons": "^2.1.4",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
+    "ng-recaptcha": "^13.2.1",
+    "ngx-toastr": "^19.0.0",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.21.0",

@@ -7,13 +7,13 @@ import { SuscripcionComponent } from './components/suscripcion/suscripcion.compo
 import { BusquedaComponent } from './components/busqueda/busqueda.component';
 
 export const routes: Routes = [
-    {path: '', redirectTo: '/inicio', pathMatch: 'full'},
-    {path: "inicio", component: InicioComponent},
-    {path: 'usuario', component: UsuarioComponent},
-    {path: 'admin', component: AdminComponent}, 
-    {path: 'conocenos', component: ConocenosComponent} ,
-    {path: 'suscripcion', component: SuscripcionComponent},
-    {path: 'ejercicio/:nombreEjercicio', component: BusquedaComponent},
-    {path: 'equipo', component: AdminComponent},
-
+    { path: '', redirectTo: '/inicio', pathMatch: 'full' },
+    { path: "inicio", component: InicioComponent },
+    { path: 'usuario', component: UsuarioComponent },
+    { path: 'admin', component: AdminComponent },
+    { path: 'conocenos', component: ConocenosComponent },
+    { path: 'suscripcion', component: SuscripcionComponent },
+    { path: 'ejercicio/:nombreEjercicio', component: BusquedaComponent },
+    { path: 'equipo', component: AdminComponent },
 ];
+

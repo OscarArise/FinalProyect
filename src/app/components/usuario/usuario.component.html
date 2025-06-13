@@ -1,70 +1,73 @@
 @if (!loginUsuario) {
   <div class="container">
-    <div class="formulario">
+    <!-- Formulario de Login -->
+    <div class="formulario" *ngIf="!mostrarRegistro">
       <form>
-        <div>
-          <label
-            for="usuario"
-            [ngClass]="'text-oro'"
-            [ngStyle]="{ 'letter-spacing': '0.5px', 'margin-bottom': '6px' }"
-          >
-            Nombre de Usuario
-          </label>
-          <input
-            type="text"
-            name="username"
-            [(ngModel)]="usuario.username"
-          />
+        <div class="form-group">
+          <label for="usuario" class="text-oro">Nombre de Usuario</label>
+          <input type="text" name="username" [(ngModel)]="usuario.username" />
         </div>
-        <div>
-          <label
-            for="password"
-            [ngClass]="'text-oro'"
-            [ngStyle]="{ 'letter-spacing': '0.5px', 'margin-bottom': '6px' }"
-          >
-            Contraseña
-          </label>
-          <input
-            type="password"
-            name="password"
-            [(ngModel)]="usuario.password"
-          />
+
+        <div class="form-group">
+          <label for="password" class="text-oro">Contraseña</label>
+          <input type="password" name="password" [(ngModel)]="usuario.password" />
         </div>
+
+        <!-- Aquí agregamos el reCAPTCHA -->
+        <re-captcha [siteKey]="siteKey" (resolved)="resolvedCaptcha($event)"></re-captcha>
+
         <button type="button" class="btn-enviar" (click)="login()">Enviar</button>
       </form>
+
+      <!-- Enlace para mostrar el formulario de registro -->
+      <p class="text-oro">¿No tienes cuenta? <a href="javascript:void(0)" (click)="mostrarRegistro = true">Regístrate aquí</a></p>
     </div>
 
-    <hr>
-    <div class="formulario">
+    <hr />
+
+    <!-- Formulario de Registro de Usuario -->
+    <div class="formulario" *ngIf="mostrarRegistro">
       <form>
         <h2 class="text-oro">Registro de nuevo usuario</h2>
-        <div>
+
+        <div class="form-group">
           <label for="nombreCompleto" class="text-oro">Nombre completo</label>
           <input type="text" name="nombreCompleto" [(ngModel)]="nuevoUsuario.nombre" required />
         </div>
-        <div>
+
+        <div class="form-group">
           <label for="nuevoEmail" class="text-oro">Correo electrónico</label>
           <input type="email" name="nuevoEmail" [(ngModel)]="nuevoUsuario.email" required />
         </div>
-        <div>
+
+        <div class="form-group">
           <label for="nuevoPassword" class="text-oro">Contraseña</label>
           <input type="password" name="nuevoPassword" [(ngModel)]="nuevoUsuario.password" required />
         </div>
-        <div>
+
+        <div class="form-group">
           <label for="confirmarPassword" class="text-oro">Confirmar contraseña</label>
           <input type="password" name="confirmarPassword" [(ngModel)]="nuevoUsuario.confirmarPassword" required />
         </div>
+
+        <!-- Aquí agregamos el reCAPTCHA para el registro -->
+        <re-captcha [siteKey]="siteKey" (resolved)="resolvedCaptcha($event)"></re-captcha>
+
         <button type="button" class="btn-enviar" (click)="registrar()">Registrar</button>
+
+        <!-- Enlace para volver al login -->
+        <p class="text-oro">¿Ya tienes cuenta? <a href="javascript:void(0)" (click)="mostrarRegistro = false">Inicia sesión aquí</a></p>
       </form>
     </div>
   </div>
 
   @if (bloqueado) {
+    <!-- Formulario de Restablecer Contraseña -->
     <div class="container">
       <div class="formulario">
         <h2 class="text-oro">Restablecer contraseña</h2>
         <form>
-          <div>
+          <div class="form-group">
             <label for="resetEmail" class="text-oro">Correo electrónico</label>
             <input type="email" name="resetEmail" [(ngModel)]="resetForm.email" required />
           </div>
@@ -74,8 +77,6 @@
       </div>
     </div>
   }
-
-  
 } @else {
   <div class="container">
     <div class="formulario">
