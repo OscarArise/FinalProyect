@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential, updateProfile, sendPasswordResetEmail } from '@angular/fire/auth';
-import { Observable, Observer } from 'rxjs';  // Asegúrate de importar Observable y Observer
+import { Observable } from 'rxjs';  // Asegúrate de importar Observable y Observer
+import { GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth'; // ya no usamos signInWithRedirect
+import { NgZone } from '@angular/core'; // Agrega esta importación
+
 
 
 @Injectable({
@@ -8,7 +11,7 @@ import { Observable, Observer } from 'rxjs';  // Asegúrate de importar Observab
 })
 export class AutenticacionService {
 
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth, private ngZone: NgZone) {}
 
   // Registrar usuario y guardar nombre completo
   registrar(email: string, password: string, nombre: string): Promise<UserCredential> {
@@ -44,4 +47,11 @@ export class AutenticacionService {
       });
     });
   }
+
+ loginConGoogle(): Promise<UserCredential> {
+    const provider = new GoogleAuthProvider();
+    return this.ngZone.run(() => signInWithPopup(this.auth, provider));
+  }
+
+
 }

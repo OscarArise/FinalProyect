@@ -21,10 +21,8 @@ import { RecaptchaModule, RecaptchaComponent } from 'ng-recaptcha';
 })
 export class UsuarioComponent implements OnInit {
 
-  // ViewChild para acceder al componente reCAPTCHA
   @ViewChild('recaptchaRef', { static: false }) recaptchaRef!: RecaptchaComponent;
 
-  // Propiedad para manejar la visibilidad del formulario de registro
   mostrarRegistro: boolean = false;
 
   usuario: Usuario = {
@@ -55,9 +53,10 @@ export class UsuarioComponent implements OnInit {
   bloqueado = false;
   resetForm = { email: '' };
 
-  // Variable para almacenar el token de reCAPTCHA
   siteKey: string = '6LdmEF8rAAAAAJ9l5E5LY8-SWxtk7Js4LoTHd_zV';
   captchaToken: string = '';
+
+  mostrarAlertCaptcha: boolean = false;
 
   constructor(
     private cuentasService: CuentasService,
@@ -99,24 +98,41 @@ export class UsuarioComponent implements OnInit {
     });
   }
 
-  // Método que se llama cuando el reCAPTCHA v2 es resuelto
   resolvedCaptcha(captchaResponse: string | null): void {
-    console.log("Respuesta del reCAPTCHA:", captchaResponse); // Debug
-    if (captchaResponse) {
+    console.log("Respuesta del reCAPTCHA:", captchaResponse);
+    
+    if (captchaResponse && captchaResponse.trim() !== '') {
       this.captchaToken = captchaResponse;
-      console.log("Token guardado:", this.captchaToken); // Debug
+      this.mostrarAlertCaptcha = false;
+      console.log("Token guardado:", this.captchaToken);
     } else {
       this.captchaToken = '';
       console.log("reCAPTCHA no fue resuelto o fue limpiado.");
     }
   }
 
-  // Método para limpiar el reCAPTCHA
   private resetCaptcha(): void {
     this.captchaToken = '';
+    this.mostrarAlertCaptcha = false;
     if (this.recaptchaRef) {
-      this.recaptchaRef.reset();
+      try {
+        this.recaptchaRef.reset();
+        console.log("reCAPTCHA reiniciado");
+      } catch (error) {
+        console.log("Error al reiniciar reCAPTCHA:", error);
+      }
     }
+  }
+
+  private mostrarAlertCaptchaBootstrap(): void {
+    this.mostrarAlertCaptcha = true;
+    setTimeout(() => {
+      this.mostrarAlertCaptcha = false;
+    }, 5000);
+  }
+
+  cerrarAlertCaptcha(): void {
+    this.mostrarAlertCaptcha = false;
   }
 
   eliminarContacto(idx: number) {
@@ -191,72 +207,137 @@ export class UsuarioComponent implements OnInit {
     this.editandoSuscripcion = null;
   }
 
-  // Login con verificación de reCAPTCHA v2
   login(): void {
-    if (this.bloqueado) return;
-
-    // Debug: verificar el estado del token
-    console.log("Token al momento del login:", this.captchaToken);
-    console.log("Token vacío?", !this.captchaToken);
-
-    // Verificación más estricta del token
-    if (!this.captchaToken || this.captchaToken.trim() === '') {
+    if (this.bloqueado) {
       Swal.fire({
-        icon: 'error',
-        title: 'reCAPTCHA requerido',
-        text: 'Por favor completa el reCAPTCHA para continuar',
+        icon: 'warning',
+        title: 'Cuenta bloqueada',
+        text: 'Tu cuenta está bloqueada. Debes restablecer tu contraseña.',
         confirmButtonText: 'OK'
       });
       return;
     }
 
+    const camposLlenos = this.usuario.username.trim() !== '' && this.usuario.password.trim() !== '';
+    const captchaLleno = this.captchaToken && this.captchaToken.trim() !== '';
+
+    if (!camposLlenos && !captchaLleno) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Faltan datos',
+        text: 'Por favor llena los campos requeridos y resuelve el reCAPTCHA.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    if (!camposLlenos && captchaLleno) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Por favor completa todos los campos antes de continuar.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    if (camposLlenos && !captchaLleno) {
+      this.mostrarAlertCaptchaBootstrap();
+      return;
+    }
+
     const formData = {
-      username: this.usuario.username,
+      username: this.usuario.username.trim(),
       password: this.usuario.password,
       recaptchaToken: this.captchaToken,
     };
 
+    Swal.fire({
+      title: 'Iniciando sesión...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.http.post('http://localhost:3000/api/login', formData).subscribe({
       next: (response) => {
         console.log("Login exitoso:", response);
+        Swal.close();
+        
         this.loginUsuario = true;
         this.intentosFallidos = 0;
-        this.resetCaptcha(); // Limpiar reCAPTCHA después del login exitoso
+        this.resetCaptcha();
         this.cargarDatos();
-        Swal.fire('¡Bienvenido!', 'Has iniciado sesión correctamente.', 'success');
+        
+        Swal.fire({
+          icon: 'success',
+          title: '¡Bienvenido!',
+          text: 'Has iniciado sesión correctamente.',
+          confirmButtonText: 'OK'
+        });
       },
       error: (error) => {
         console.error("Error en login:", error);
-        this.resetCaptcha(); // Limpiar reCAPTCHA después del error
+        Swal.close();
+        this.resetCaptcha();
         this.intentosFallidos++;
+        
         if (this.intentosFallidos >= 3) {
           this.bloqueado = true;
-          Swal.fire('Bloqueado', 'Demasiados intentos fallidos. Debes restablecer tu contraseña.', 'warning');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Cuenta bloqueada',
+            text: 'Demasiados intentos fallidos. Debes restablecer tu contraseña.',
+            confirmButtonText: 'OK'
+          });
         } else {
-          Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error');
+          const intentosRestantes = 3 - this.intentosFallidos;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error de autenticación',
+            text: `Usuario o contraseña incorrectos. Te quedan ${intentosRestantes} intento(s).`,
+            confirmButtonText: 'OK'
+          });
         }
       }
     });
   }
 
   registrar(): void {
-    if (!this.nuevoUsuario.nombre || !this.nuevoUsuario.email || !this.nuevoUsuario.password || !this.nuevoUsuario.confirmarPassword) {
-      Swal.fire('Error', 'Todos los campos son obligatorios.', 'error');
+    if (!this.nuevoUsuario.nombre || this.nuevoUsuario.nombre.trim() === '') {
+      Swal.fire('Error', 'El nombre completo es obligatorio.', 'error');
       return;
     }
+
+    if (!this.nuevoUsuario.email || this.nuevoUsuario.email.trim() === '') {
+      Swal.fire('Error', 'El correo electrónico es obligatorio.', 'error');
+      return;
+    }
+
+    if (!this.nuevoUsuario.password || this.nuevoUsuario.password.trim() === '') {
+      Swal.fire('Error', 'La contraseña es obligatoria.', 'error');
+      return;
+    }
+
+    if (!this.nuevoUsuario.confirmarPassword || this.nuevoUsuario.confirmarPassword.trim() === '') {
+      Swal.fire('Error', 'Debes confirmar tu contraseña.', 'error');
+      return;
+    }
+
     if (this.nuevoUsuario.password !== this.nuevoUsuario.confirmarPassword) {
       Swal.fire('Error', 'Las contraseñas no coinciden.', 'error');
       return;
     }
 
-    // Verificación más estricta del token para registro
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.nuevoUsuario.email)) {
+      Swal.fire('Error', 'Por favor ingresa un correo electrónico válido.', 'error');
+      return;
+    }
+
     if (!this.captchaToken || this.captchaToken.trim() === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'reCAPTCHA requerido',
-        text: 'Por favor completa el reCAPTCHA para continuar con el registro',
-        confirmButtonText: 'OK'
-      });
+      this.mostrarAlertCaptchaBootstrap();
       return;
     }
 
@@ -267,36 +348,57 @@ export class UsuarioComponent implements OnInit {
       recaptchaToken: this.captchaToken,
     };
 
+    Swal.fire({
+      title: 'Registrando usuario...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.http.post('http://localhost:3000/api/register', formData).subscribe({
       next: (response) => {
         console.log("Registro exitoso:", response);
+        Swal.close();
+        
         Swal.fire('¡Registrado!', 'Usuario creado correctamente. Ahora puedes iniciar sesión.', 'success');
         this.nuevoUsuario = { nombre: '', email: '', password: '', confirmarPassword: '' };
-        this.resetCaptcha(); // Limpiar reCAPTCHA después del registro exitoso
-        this.mostrarRegistro = false; // Ocultar formulario de registro
+        this.resetCaptcha();
+        this.mostrarRegistro = false;
       },
       error: (error) => {
         console.error("Error en registro:", error);
-        this.resetCaptcha(); // Limpiar reCAPTCHA después del error
+        Swal.close();
+        this.resetCaptcha();
         Swal.fire('Error', error.error?.message || 'Error al registrar usuario', 'error');
       }
     });
   }
 
-  // Restablecer contraseña
   cambiarPassword(): void {
     if (!this.resetForm.email) {
       Swal.fire('Error', 'El correo es obligatorio.', 'error');
       return;
     }
+    
+    Swal.fire({
+      title: 'Enviando correo...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.autenticationService.resetPassword(this.resetForm.email)
       .then(() => {
+        Swal.close();
         Swal.fire('Éxito', 'Se envió un correo para restablecer tu contraseña. Sigue las instrucciones y luego inicia sesión.', 'success');
         this.bloqueado = false;
         this.intentosFallidos = 0;
         this.resetForm = { email: '' };
       })
       .catch(err => {
+        Swal.close();
         Swal.fire('Error', err.message, 'error');
       });
   }
@@ -309,15 +411,17 @@ export class UsuarioComponent implements OnInit {
     this.usuario.nombre = '';
     this.mensajesContacto = [];
     this.suscripciones = [];
-    this.resetCaptcha(); // Limpiar reCAPTCHA al hacer logout
+    this.resetCaptcha();
     this.router.navigate(['/usuario']);
   }
 
-  // Método para alternar la visibilidad del formulario de registro
   toggleRegistro(): void {
     this.mostrarRegistro = !this.mostrarRegistro;
-    if (this.mostrarRegistro) {
-      this.resetCaptcha(); // Limpiar reCAPTCHA al cambiar de formulario
-    }
+    this.resetCaptcha();
+  }
+
+  loginConGoogle(): void {
+    this.autenticationService.loginConGoogle()
+      .catch(err => Swal.fire('Error', 'No se pudo redirigir al inicio de sesión con Google', 'error'));
   }
 }

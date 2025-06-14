@@ -4,23 +4,65 @@
     <div class="formulario" *ngIf="!mostrarRegistro">
       <form>
         <div class="form-group">
-          <label for="usuario" class="text-oro">Nombre de Usuario</label>
-          <input type="text" name="username" [(ngModel)]="usuario.username" />
+          <label for="usuario" class="text-oro">Nombre de Usuario *</label>
+          <input 
+            type="text" 
+            name="username" 
+            [(ngModel)]="usuario.username" 
+            required
+            placeholder="Ingresa tu nombre de usuario"
+            #username="ngModel"
+          />
+          <div *ngIf="username.invalid && username.touched" class="error-message">
+            El nombre de usuario es requerido
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="password" class="text-oro">Contraseña</label>
-          <input type="password" name="password" [(ngModel)]="usuario.password" />
+          <label for="password" class="text-oro">Contraseña *</label>
+          <input 
+            type="password" 
+            name="password" 
+            [(ngModel)]="usuario.password" 
+            required
+            placeholder="Ingresa tu contraseña"
+            #password="ngModel"
+          />
+          <div *ngIf="password.invalid && password.touched" class="error-message">
+            La contraseña es requerida
+          </div>
         </div>
 
-        <!-- Aquí agregamos el reCAPTCHA -->
-        <re-captcha [siteKey]="siteKey" (resolved)="resolvedCaptcha($event)"></re-captcha>
+        <!-- reCAPTCHA con referencia para acceso desde el componente -->
+        <re-captcha 
+          #recaptchaLoginRef
+          [siteKey]="siteKey" 
+          (resolved)="resolvedCaptcha($event)">
+        </re-captcha>
+
+        <!-- Alert de Bootstrap para Captcha en Login -->
+        <div class="alert alert-warning alert-dismissible fade show mt-3" 
+             role="alert" 
+             *ngIf="mostrarAlertCaptcha">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          <strong>¡Atención!</strong> Por favor resuelve el reCAPTCHA para continuar.
+        </div>
 
         <button type="button" class="btn-enviar" (click)="login()">Enviar</button>
+
+        <p class="text-oro">O bien usa otra opción de inicio de sesión:</p>
+
+        <!-- Autenticación con Google -->
+        <button type="button" class="btn-enviar" (click)="loginConGoogle()">
+          Iniciar sesión con Google
+        </button>
       </form>
 
       <!-- Enlace para mostrar el formulario de registro -->
-      <p class="text-oro">¿No tienes cuenta? <a href="javascript:void(0)" (click)="mostrarRegistro = true">Regístrate aquí</a></p>
+      <p class="text-oro">
+        ¿No tienes cuenta? 
+        <a href="javascript:void(0)" (click)="toggleRegistro()">Regístrate aquí</a>
+      </p>
     </div>
 
     <hr />
@@ -31,32 +73,93 @@
         <h2 class="text-oro">Registro de nuevo usuario</h2>
 
         <div class="form-group">
-          <label for="nombreCompleto" class="text-oro">Nombre completo</label>
-          <input type="text" name="nombreCompleto" [(ngModel)]="nuevoUsuario.nombre" required />
+          <label for="nombreCompleto" class="text-oro">Nombre completo *</label>
+          <input 
+            type="text" 
+            name="nombreCompleto" 
+            [(ngModel)]="nuevoUsuario.nombre" 
+            required 
+            placeholder="Ingresa tu nombre completo"
+            #nombreCompleto="ngModel"
+          />
+          <div *ngIf="nombreCompleto.invalid && nombreCompleto.touched" class="error-message">
+            El nombre completo es requerido
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="nuevoEmail" class="text-oro">Correo electrónico</label>
-          <input type="email" name="nuevoEmail" [(ngModel)]="nuevoUsuario.email" required />
+          <label for="nuevoEmail" class="text-oro">Correo electrónico *</label>
+          <input 
+            type="email" 
+            name="nuevoEmail" 
+            [(ngModel)]="nuevoUsuario.email" 
+            required 
+            placeholder="ejemplo@correo.com"
+            #nuevoEmail="ngModel"
+          />
+          <div *ngIf="nuevoEmail.invalid && nuevoEmail.touched" class="error-message">
+            <span *ngIf="nuevoEmail.errors?.['required']">El correo electrónico es requerido</span>
+            <span *ngIf="nuevoEmail.errors?.['email']">Ingresa un correo electrónico válido</span>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="nuevoPassword" class="text-oro">Contraseña</label>
-          <input type="password" name="nuevoPassword" [(ngModel)]="nuevoUsuario.password" required />
+          <label for="nuevoPassword" class="text-oro">Contraseña *</label>
+          <input 
+            type="password" 
+            name="nuevoPassword" 
+            [(ngModel)]="nuevoUsuario.password" 
+            required 
+            placeholder="Mínimo 6 caracteres"
+            minlength="6"
+            #nuevoPassword="ngModel"
+          />
+          <div *ngIf="nuevoPassword.invalid && nuevoPassword.touched" class="error-message">
+            <span *ngIf="nuevoPassword.errors?.['required']">La contraseña es requerida</span>
+            <span *ngIf="nuevoPassword.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</span>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="confirmarPassword" class="text-oro">Confirmar contraseña</label>
-          <input type="password" name="confirmarPassword" [(ngModel)]="nuevoUsuario.confirmarPassword" required />
+          <label for="confirmarPassword" class="text-oro">Confirmar contraseña *</label>
+          <input 
+            type="password" 
+            name="confirmarPassword" 
+            [(ngModel)]="nuevoUsuario.confirmarPassword" 
+            required 
+            placeholder="Confirma tu contraseña"
+            #confirmarPassword="ngModel"
+          />
+          <div *ngIf="confirmarPassword.invalid && confirmarPassword.touched" class="error-message">
+            La confirmación de contraseña es requerida
+          </div>
+          <div *ngIf="nuevoUsuario.password !== nuevoUsuario.confirmarPassword && confirmarPassword.touched && nuevoUsuario.confirmarPassword" class="error-message">
+            Las contraseñas no coinciden
+          </div>
         </div>
 
-        <!-- Aquí agregamos el reCAPTCHA para el registro -->
-        <re-captcha [siteKey]="siteKey" (resolved)="resolvedCaptcha($event)"></re-captcha>
+        <!-- reCAPTCHA con referencia -->
+        <re-captcha 
+          #recaptchaRegistroRef
+          [siteKey]="siteKey" 
+          (resolved)="resolvedCaptcha($event)">
+        </re-captcha>
+
+        <!-- Alert de Bootstrap para Captcha en Registro -->
+        <div class="alert alert-warning alert-dismissible fade show mt-3" 
+             role="alert" 
+             *ngIf="mostrarAlertCaptcha">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          <strong>¡Atención!</strong> Por favor resuelve el reCAPTCHA para continuar.
+        </div>
 
         <button type="button" class="btn-enviar" (click)="registrar()">Registrar</button>
 
         <!-- Enlace para volver al login -->
-        <p class="text-oro">¿Ya tienes cuenta? <a href="javascript:void(0)" (click)="mostrarRegistro = false">Inicia sesión aquí</a></p>
+        <p class="text-oro">
+          ¿Ya tienes cuenta? 
+          <a href="javascript:void(0)" (click)="toggleRegistro()">Inicia sesión aquí</a>
+        </p>
       </form>
     </div>
   </div>
@@ -68,10 +171,18 @@
         <h2 class="text-oro">Restablecer contraseña</h2>
         <form>
           <div class="form-group">
-            <label for="resetEmail" class="text-oro">Correo electrónico</label>
-            <input type="email" name="resetEmail" [(ngModel)]="resetForm.email" required />
+            <label for="resetEmail" class="text-oro">Correo electrónico *</label>
+            <input 
+              type="email" 
+              name="resetEmail" 
+              [(ngModel)]="resetForm.email" 
+              required 
+              placeholder="Ingresa tu correo electrónico"
+            />
           </div>
-          <button type="button" class="btn-enviar" (click)="cambiarPassword()">Enviar correo de restablecimiento</button>
+          <button type="button" class="btn-enviar" (click)="cambiarPassword()">
+            Enviar correo de restablecimiento
+          </button>
         </form>
         <p class="text-blanco">Recibirás un correo con instrucciones para cambiar tu contraseña.</p>
       </div>
@@ -103,13 +214,39 @@
             @for(mensaje of mensajesContacto; track mensaje; let j = $index) {
               @if(editandoContacto === j) {
                 <tr>
-                  <td><input [(ngModel)]="contactoEditado.nombre" /></td>
-                  <td><input [(ngModel)]="contactoEditado.email" /></td>
-                  <td><input [(ngModel)]="contactoEditado.asunto" /></td>
-                  <td><input [(ngModel)]="contactoEditado.mensaje" /></td>
                   <td>
-                    <button (click)="guardarContacto(j)" class="btn-enviar">Guardar</button>
-                    <button (click)="cancelarEdicionContacto()" class="btn-cancelar">Cancelar</button>
+                    <input 
+                      [(ngModel)]="contactoEditado.nombre" 
+                      placeholder="Nombre"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input 
+                      [(ngModel)]="contactoEditado.email" 
+                      type="email"
+                      placeholder="Email"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input 
+                      [(ngModel)]="contactoEditado.asunto" 
+                      placeholder="Asunto"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <textarea 
+                      [(ngModel)]="contactoEditado.mensaje" 
+                      placeholder="Mensaje"
+                      class="input-tabla textarea-tabla"
+                      rows="3">
+                    </textarea>
+                  </td>
+                  <td>
+                    <button (click)="guardarContacto(j)" class="btn-enviar btn-small">Guardar</button>
+                    <button (click)="cancelarEdicionContacto()" class="btn-cancelar btn-small">Cancelar</button>
                   </td>
                 </tr>
               } @else {
@@ -119,8 +256,8 @@
                   <td>{{mensaje.asunto}}</td>
                   <td>{{mensaje.mensaje}}</td>
                   <td>
-                    <button (click)="editarContacto(j)" class="btn-editar">Editar</button>
-                    <button (click)="eliminarContacto(j)" class="btn-eliminar">Eliminar</button>
+                    <button (click)="editarContacto(j)" class="btn-editar btn-small">Editar</button>
+                    <button (click)="eliminarContacto(j)" class="btn-eliminar btn-small">Eliminar</button>
                   </td>
                 </tr>
               }
@@ -154,16 +291,44 @@
             @for(suscripcion of suscripciones; track suscripcion; let i = $index) {
               @if(editandoSuscripcion === i) {
                 <tr>
-                  <td><input [(ngModel)]="suscripcionEditada.nombre" /></td>
-                  <td><input [(ngModel)]="suscripcionEditada.telefono" /></td>
-                  <td><input [(ngModel)]="suscripcionEditada.claseSeleccionada" /></td>
-                  <td><input [(ngModel)]="suscripcionEditada.fecha" type="date" /></td>
                   <td>
-                    <input type="checkbox" [(ngModel)]="suscripcionEditada.publicidad" />
+                    <input 
+                      [(ngModel)]="suscripcionEditada.nombre" 
+                      placeholder="Nombre"
+                      class="input-tabla"
+                    />
                   </td>
                   <td>
-                    <button (click)="guardarSuscripcion(i)" class="btn-enviar">Guardar</button>
-                    <button (click)="cancelarEdicionSuscripcion()" class="btn-cancelar">Cancelar</button>
+                    <input 
+                      [(ngModel)]="suscripcionEditada.telefono" 
+                      placeholder="Teléfono"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input 
+                      [(ngModel)]="suscripcionEditada.claseSeleccionada" 
+                      placeholder="Clase"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input 
+                      [(ngModel)]="suscripcionEditada.fecha" 
+                      type="date" 
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="suscripcionEditada.publicidad" 
+                      class="checkbox-tabla"
+                    />
+                  </td>
+                  <td>
+                    <button (click)="guardarSuscripcion(i)" class="btn-enviar btn-small">Guardar</button>
+                    <button (click)="cancelarEdicionSuscripcion()" class="btn-cancelar btn-small">Cancelar</button>
                   </td>
                 </tr>
               } @else {
@@ -174,8 +339,8 @@
                   <td>{{suscripcion.fecha}}</td>
                   <td>{{suscripcion.publicidad ? 'Sí' : 'No'}}</td>
                   <td>
-                    <button (click)="editarSuscripcion(i)" class="btn-editar">Editar</button>
-                    <button (click)="eliminarSuscripcion(i)" class="btn-eliminar">Eliminar</button>
+                    <button (click)="editarSuscripcion(i)" class="btn-editar btn-small">Editar</button>
+                    <button (click)="eliminarSuscripcion(i)" class="btn-eliminar btn-small">Eliminar</button>
                   </td>
                 </tr>
               }
