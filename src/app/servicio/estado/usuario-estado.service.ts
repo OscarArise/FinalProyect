@@ -24,6 +24,9 @@ export class UsuarioEstadoService {
   loginUsuario(usuario: string) {
     this.setUsuario(usuario);
   }
+  agregarUID(uid: string) {
+    this.setUid(uid);
+  }
   logoutUsuario() {
     this.authService.logout()
     this.setUsuario('');
@@ -41,6 +44,9 @@ login(email: string, password: string) {
       const nombreUsuario = cred.user.displayName || cred.user.email || '';
       this.loginUsuario(nombreUsuario);
       this.setUid(cred.user.uid);
+      console.log('DATOS DEL SERVICIO USUARIO ESTADO');
+      console.log('Usuario logueado:', nombreUsuario);
+      console.log('UID del usuario:', cred.user.uid);
     });
 }
 

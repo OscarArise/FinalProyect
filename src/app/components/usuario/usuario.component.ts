@@ -66,7 +66,14 @@ export class UsuarioComponent implements OnInit {
     private router: Router,
     private autenticationService: AutenticacionService,
     private http: HttpClient
-  ) {}
+  ) {
+    this.usuarioEstadoService.usuario$.subscribe(usuario => {
+      this.usuarioActual = usuario;
+    });
+    this.usuarioEstadoService.uid$.subscribe(uid => {
+      this.uidActual = uid;
+    });
+  }
 
   ngOnInit(): void {
     this.usuarioEstadoService.usuario$.subscribe(usuario => {
@@ -96,6 +103,9 @@ export class UsuarioComponent implements OnInit {
       next: (solicitudes) => this.suscripciones = solicitudes,
       error: () => this.suscripciones = []
     });
+    console.log('DATOS CARGADOS de la funcion cargarDatos');
+    console.log('Datos cargados:', this.mensajesContacto);
+    console.log('Suscripciones cargadas:', this.suscripciones);
   }
 
   resolvedCaptcha(captchaResponse: string | null): void {
@@ -208,6 +218,12 @@ export class UsuarioComponent implements OnInit {
   }
 
   login(): void {
+    /*this.usuarioEstadoService.usuario$.subscribe(usuario => {
+      this.usuarioActual = usuario;
+    });
+    this.usuarioEstadoService.uid$.subscribe(uid => {
+      this.uidActual = uid;
+    });*/
     if (this.bloqueado) {
       Swal.fire({
         icon: 'warning',
@@ -267,8 +283,17 @@ export class UsuarioComponent implements OnInit {
         
         this.loginUsuario = true;
         this.intentosFallidos = 0;
+        this.usuarioEstadoService.login(this.usuario.username, this.usuario.password)
+        .then(() => {
+          this.loginUsuario = true;
+          this.cargarDatos();
+        })
         this.resetCaptcha();
-        this.cargarDatos();
+
+        console.log("SON LSO DATOS DE USUARIO EN EL HTTP POST DENTRO DEL LOGIN");
+        console.log("Usuario logueado:", this.usuario.username);
+        console.log("UID actual:", this.uidActual);
+        console.log("Datos de usuario:", this.usuario.nombre);
         
         Swal.fire({
           icon: 'success',
@@ -301,7 +326,13 @@ export class UsuarioComponent implements OnInit {
           });
         }
       }
+      
     });
+
+    console.log('ESTOS SON LOS DATOS DEL USUARIO AL INICIAR SESION, AL FINAL DE LA FUNCION LOGIN');
+
+    console.log('Usuario actual:', this.usuarioActual);
+    console.log('UID actual:', this.uidActual);
   }
 
   registrar(): void {
@@ -424,15 +455,18 @@ export class UsuarioComponent implements OnInit {
   this.autenticationService.loginConGoogle()
     .then(cred => {
       this.loginUsuario = true;
-      this.usuario.username = cred.user?.email ?? '';
-      this.usuario.nombre = cred.user?.displayName ?? '';
-      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuario.nombre}`, 'success');
+      this.usuarioActual = cred.user?.email ?? '';
+      this.usuario.username = this.usuarioActual;
+      this.uidActual = cred.user?.uid ?? '';
+      this.usuarioEstadoService.loginUsuario(this.usuarioActual);
+      this.usuarioEstadoService.agregarUID(this.uidActual);
+      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
     })
     .catch(err => {
       console.error('Error en login con Google:', err);
       Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
     });
-}
+  }
  
 
 }
