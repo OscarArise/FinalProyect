@@ -420,8 +420,19 @@ export class UsuarioComponent implements OnInit {
     this.resetCaptcha();
   }
 
-  loginConGoogle(): void {
-    this.autenticationService.loginConGoogle()
-      .catch(err => Swal.fire('Error', 'No se pudo redirigir al inicio de sesión con Google', 'error'));
-  }
+ loginConGoogle(): void {
+  this.autenticationService.loginConGoogle()
+    .then(cred => {
+      this.loginUsuario = true;
+      this.usuario.username = cred.user?.email ?? '';
+      this.usuario.nombre = cred.user?.displayName ?? '';
+      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuario.nombre}`, 'success');
+    })
+    .catch(err => {
+      console.error('Error en login con Google:', err);
+      Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
+    });
+}
+ 
+
 }

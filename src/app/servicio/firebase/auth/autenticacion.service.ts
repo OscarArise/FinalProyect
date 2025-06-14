@@ -6,6 +6,7 @@ import { NgZone } from '@angular/core'; // Agrega esta importación
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,9 +50,11 @@ export class AutenticacionService {
   }
 
  loginConGoogle(): Promise<UserCredential> {
-    const provider = new GoogleAuthProvider();
-    return this.ngZone.run(() => signInWithPopup(this.auth, provider));
-  }
-
-
+  const provider = new GoogleAuthProvider();
+  return this.ngZone.runOutsideAngular(() =>
+    signInWithPopup(this.auth, provider)
+      .then(user => this.ngZone.run(() => user))
+  );
+}
+  
 }

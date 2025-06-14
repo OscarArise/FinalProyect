@@ -1,7 +1,7 @@
 export const environment = {
   firebase: {
     apiKey: "AIzaSyBkhZwSwygjJnrE6ntRpekaqe8G1-Z4Ot4",
-    authDomain: "pruebasfirebase-c2278.appspot.com",
+    authDomain: "pruebasfirebase-c2278.web.app", // ← ¡Aquí está el cambio!
     projectId: "pruebasfirebase-c2278",
     storageBucket: "pruebasfirebase-c2278.appspot.com",
     messagingSenderId: "51759880341",
