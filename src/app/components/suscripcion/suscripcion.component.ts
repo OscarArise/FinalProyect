@@ -5,6 +5,7 @@ import { Formulario2Component } from '../formulario2/formulario2.component';
 import Swal from 'sweetalert2';
 import { EjerciciosService } from '../../servicio/ejercicio/ejercicios.service';
 import { Router, RouterModule } from '@angular/router';
+import { UsuarioEstadoService } from '../../servicio/estado/usuario-estado.service';
 
 @Component({
   selector: 'app-suscripcion',
@@ -17,8 +18,10 @@ export class SuscripcionComponent {
   minFecha: string = new Date().toISOString().split('T')[0];
   suscripcionForm;
   datosParaFormulario2: any = null;
+  uid: string = '';
+  login: boolean = false;
 
-  constructor(private fb: FormBuilder, private ejerciciosService: EjerciciosService, private router:Router) {
+  constructor(private fb: FormBuilder, private ejerciciosService: EjerciciosService, private router:Router,private usuarioEstadoService: UsuarioEstadoService) {
     this.suscripcionForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{7,15}$')]],
@@ -31,6 +34,7 @@ export class SuscripcionComponent {
   enviar() {
     if (this.suscripcionForm.valid) {
       this.datosParaFormulario2 = this.suscripcionForm.value;
+      console.log('Formulario enviado:', this.datosParaFormulario2);
       // Opcional: resetear el formulario
       this.suscripcionForm.reset({ publicidad: false });
       Swal.fire({
@@ -68,6 +72,16 @@ export class SuscripcionComponent {
       error: (error) => { console.error('Error al obtener los ejercicios:', error);}
 
     });
+    this.usuarioEstadoService.uid$.subscribe(uid => {
+      this.uid = uid;
+    });
+    if (this.uid) {
+      this.suscripcionForm.enable();
+      this.login = true;
+    }else {
+      this.suscripcionForm.disable();
+      this.login = false;
+    }
   }
 
   buscarAdetalle( nombre: string): void {

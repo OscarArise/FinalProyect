@@ -7,6 +7,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { DomSanitizerPipe } from '../../../dom-sanitizer.pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { ContactoService } from '../../../servicio/firebase/contacto.service';
+import { Contacto } from '../../../servicio/firebase/contacto.service';
 
 interface Slide {
   src: string;
@@ -28,20 +30,25 @@ interface Plan {
   imports: [FormsModule, Formulario1Component, MatSlideToggleModule, MatCardModule, DomSanitizerPipe,MatIconModule]
 })
 export class InicioComponent implements OnInit, OnDestroy {
+
+
   indiceActual: number = 0;
   slides: Slide[] = [
     { src: 'car1.jpg', alt: 'Gimnasio Eter Gym' },
     { src: 'mapa.jpg', alt: 'Equipos de Entrenamiento' },
     { src: 'eter.jpg', alt: 'Clases Personalizadas' }
   ];
-    video:string = 'tUykoP30Gb0?si=uNxmgT-d8vfMca5d';
+  video:string = 'tUykoP30Gb0?si=uNxmgT-d8vfMca5d';
 
   planes: Plan[] = [];
   mostrarPlanes: boolean = false;
   mostrarFormulario: boolean = true;
   intervaloCarrusel: any = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private contactoService: ContactoService
+  ) {}
 
   ngOnInit() {
     this.obtenerPlanes();
@@ -139,15 +146,18 @@ export class InicioComponent implements OnInit, OnDestroy {
     }
   }
 
-  agregarMensaje(mensaje: { nombre: string, email: string, asunto: string, mensaje: string }) {
-    const mensajesGuardados = localStorage.getItem('mensajesContacto');
-    let mensajesArray = mensajesGuardados ? JSON.parse(mensajesGuardados) : [];
-
-    mensajesArray.push(mensaje);
-    localStorage.setItem('mensajesContacto', JSON.stringify(mensajesArray));
+  agregarMensaje(datos: any) {
+    const contacto: Contacto = {
+      nombre: datos.nombre,
+      email: datos.email,
+      asunto: datos.asunto,
+      mensaje: datos.mensaje,
+      usuarioId: datos.uid
+    };
+    this.contactoService.crearContacto(contacto).subscribe();
 
     Swal.fire({
-      position: "top-end",
+      position: "center",
       icon: "success",
       title: "Formulario enviado con éxito!",
       showConfirmButton: false,

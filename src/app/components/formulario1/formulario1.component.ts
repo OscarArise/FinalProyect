@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { UsuarioEstadoService } from '../../servicio/estado/usuario-estado.service';
+
 
 @Component({
   selector: 'app-formulario1',
@@ -13,8 +15,22 @@ export class Formulario1Component {
   email: string = '';
   asunto: string = '';
   mensaje: string = '';
+  uid: string = '';
+  login: boolean = false;
   //contacto: string [] = [];
-  @Output() enviarFormulario = new EventEmitter<{nombre: string, email: string, asunto: string, mensaje: string}>();
+  @Output() enviarFormulario = new EventEmitter<{nombre: string, email: string, asunto: string, mensaje: string, uid: string}>();
+
+  constructor(private usuarioEstadoService: UsuarioEstadoService) {
+  }
+
+  ngOnInit() {
+    this.usuarioEstadoService.uid$.subscribe(uid => {
+      this.uid = uid;
+    });
+    if (this.uid) {
+      this.login = true;
+    }
+  }
 
   nombreTocado = false;
   emailTocado = false;
@@ -36,7 +52,8 @@ export class Formulario1Component {
       nombre: this.nombre,
       email: this.email,
       asunto: this.asunto,
-      mensaje: this.mensaje
+      mensaje: this.mensaje,
+      uid: this.uid
     });
     this.nombre = '';
     this.email = '';
