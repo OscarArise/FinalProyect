@@ -5,12 +5,12 @@
     <p class="text-2xl font-bold text-white">¡Contáctanos!</p>
   </div>
 
-  <form>
+  <form (ngSubmit)="enviar()">
     <div class="mb-4">
       <label class="block text-[#C9B243] font-medium mb-1">Nombre:</label>
       <input [(ngModel)]="nombre" type="text" name="nombre"
         class="w-full p-2 rounded bg-[#1e1e1e] border border-[#C9B243] text-white" 
-        required (blur)="nombreTocado = true">
+        required (blur)="nombreTocado = true" [disabled]="!login">
       @if(nombre && nombre.trim().length > 0 && nombre.trim().length < 5) {
         <div class="text-[#C9B243] text-sm mt-1">El nombre debe tener al menos 5 caracteres.</div>
       }
@@ -23,7 +23,7 @@
       <label class="block text-[#C9B243] font-medium mb-1">Email:</label>
       <input [(ngModel)]="email" type="text" name="email"
         class="w-full p-2 rounded bg-[#1e1e1e] border border-[#C9B243] text-white" 
-        required minlength="4" (blur)="emailTocado = true">
+        required minlength="4" (blur)="emailTocado = true" [disabled]="!login">
       @if(email && !email.includes('@')) {
         <div class="text-[#C9B243] text-sm mt-1">El email debe contener un "&#64;", Debe ser un email válido.</div>
       }
@@ -39,7 +39,7 @@
       <label class="block text-[#C9B243] font-medium mb-1">Asunto:</label>
       <input [(ngModel)]="asunto" type="text" name="asunto"
         class="w-full p-2 rounded bg-[#1e1e1e] border border-[#C9B243] text-white" 
-        required minlength="10" (blur)="asuntoTocado = true">
+        required minlength="10" (blur)="asuntoTocado = true" [disabled]="!login">
       @if(asunto && asunto.trim().length > 0 && asunto.trim().length < 10) {
         <div class="text-[#C9B243] text-sm mt-1">El asunto debe tener al menos 10 caracteres.</div>
       }
@@ -51,7 +51,7 @@
     <div class="mb-4">
       <label class="block text-[#C9B243] font-medium mb-1">Mensaje:</label>
       <textarea [(ngModel)]="mensaje" name="mensaje" required minlength="20" (blur)="mensajeTocado = true"
-        class="w-full p-2 rounded bg-[#1e1e1e] border border-[#C9B243] text-white h-32 resize-none"></textarea>
+        class="w-full p-2 rounded bg-[#1e1e1e] border border-[#C9B243] text-white h-32 resize-none" [disabled]="!login"></textarea>
       @if(mensaje && mensaje.trim().length > 0 && mensaje.trim().length < 20) {
         <div class="text-[#C9B243] text-sm mt-1">El mensaje debe tener al menos 20 caracteres.</div>
       }
@@ -59,6 +59,9 @@
         <div class="text-[#C9B243] text-sm mt-1">El mensaje es obligatorio.</div>
       }
     </div>
-    <button mat-flat-button color="accent"(click)="enviar()"class="boton-enviar">Enviar</button>
+    @if(!login) {
+      <div class="text-[#C9B243] text-sm mb-4">Por favor, inicia sesión para enviar el formulario.</div>
+    }
+    <button mat-flat-button color="accent" class="boton-enviar" [disabled]="!login">Enviar</button>
   </form>
 </div>

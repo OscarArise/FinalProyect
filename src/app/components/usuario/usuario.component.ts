@@ -73,6 +73,9 @@ export class UsuarioComponent implements OnInit {
     this.usuarioEstadoService.uid$.subscribe(uid => {
       this.uidActual = uid;
     });
+    if( this.usuarioActual) {
+      this.loginUsuario = true;
+    }
   }
 
   ngOnInit(): void {

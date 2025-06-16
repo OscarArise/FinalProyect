@@ -25,7 +25,7 @@
 
         <div>
           <label class="block text-[#C9B243] font-semibold">Clase:</label>
-          <select formControlName="clase" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]">
+          <select formControlName="clase" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]" >
             <option value="" disabled selected class="text-[#cccccc]">Selecciona una clase</option>
             @for(clase of clases; track clase) {
               <option [value]="clase" class="text-black">{{ clase }}</option>
@@ -38,7 +38,7 @@
 
         <div>
           <label class="block text-[#C9B243] font-semibold">Fecha para ser contactado:</label>
-          <input type="date" formControlName="fecha" [min]="minFecha" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]">
+          <input type="date" formControlName="fecha" [min]="minFecha" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]" >
           @if(suscripcionForm.get('fecha')?.invalid && suscripcionForm.get('fecha')?.touched) {
             <div class="text-[#C9B243] text-sm">Selecciona una fecha válida (no anterior a hoy)</div>
           }
@@ -46,10 +46,14 @@
 
         <div>
           <label class="text-[#C9B243] flex items-center">
-            <input type="checkbox" formControlName="publicidad" class="mr-2">
+            <input type="checkbox" formControlName="publicidad" class="mr-2" >
             Deseo recibir publicidad
           </label>
         </div>
+
+        @if(!login) {
+          <div class="text-[#C9B243] text-sm mb-4">Por favor, inicia sesión para enviar el formulario.</div>
+        }
 
         <button
           type="submit"
@@ -57,7 +61,7 @@
           class="w-full bg-[#C9B243] text-black font-semibold py-3 rounded
                  hover:bg-white hover:text-[#C9B243]
                  transition-colors duration-200 ease-in-out"
-        >
+                 >
           Enviar
         </button>
       </form>
