@@ -467,6 +467,32 @@ export class UsuarioComponent implements OnInit {
       Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
     });
   }
- 
+
+  loginConGitHub(): void {
+  this.autenticationService.loginConGitHub()
+    .then(cred => {
+      // Establece la sesión del usuario en el estado global
+      this.loginUsuario = true;
+      this.usuarioActual = cred.user?.email ?? '';
+      this.usuario.username = this.usuarioActual;
+      this.uidActual = cred.user?.uid ?? '';
+      
+      // Actualiza el estado global del usuario (por ejemplo, con un servicio como usuarioEstadoService)
+      this.usuarioEstadoService.loginUsuario(this.usuarioActual);  // Actualiza el nombre del usuario
+      this.usuarioEstadoService.agregarUID(this.uidActual);  // Guarda el UID en el estado
+
+      // Muestra un mensaje de bienvenida al usuario
+      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
+
+      // Carga los datos del usuario después de iniciar sesión
+      this.cargarDatos();
+    })
+    .catch(err => {
+      console.error('Error en login con GitHub:', err);
+      Swal.fire('Error', 'No se pudo iniciar sesión con GitHub', 'error');
+    });
+}
+
+
 
 }

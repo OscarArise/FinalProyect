@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential, updateProfile, sendPasswordResetEmail } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential, updateProfile, sendPasswordResetEmail, setPersistence, browserLocalPersistence, GithubAuthProvider } from '@angular/fire/auth';
 import { Observable } from 'rxjs';  // Asegúrate de importar Observable y Observer
 import { GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth'; // ya no usamos signInWithRedirect
 import { NgZone } from '@angular/core'; // Agrega esta importación
@@ -13,6 +13,18 @@ import { NgZone } from '@angular/core'; // Agrega esta importación
 export class AutenticacionService {
 
   constructor(private auth: Auth, private ngZone: NgZone) {}
+
+  // Establecer persistencia de la sesión
+  setPersistence(): Promise<void> {
+    return setPersistence(this.auth, browserLocalPersistence)
+      .then(() => {
+        console.log("Persistencia de sesión configurada como 'local'.");
+      })
+      .catch((error) => {
+        console.error("Error al configurar persistencia", error);
+      });
+  }
+
 
   // Registrar usuario y guardar nombre completo
   registrar(email: string, password: string, nombre: string): Promise<UserCredential> {
@@ -56,5 +68,15 @@ export class AutenticacionService {
       .then(user => this.ngZone.run(() => user))
   );
 }
+
+   // Iniciar sesión con GitHub
+  loginConGitHub(): Promise<UserCredential> {
+    const provider = new GithubAuthProvider();
+    return this.ngZone.runOutsideAngular(() =>
+      signInWithPopup(this.auth, provider)
+        .then((userCredential) => this.ngZone.run(() => userCredential))
+    );
+  }
   
+
 }
