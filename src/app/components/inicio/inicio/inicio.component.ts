@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Formulario1Component } from '../../formulario1/formulario1.component';
+import { QrComponent } from '../../qr/qr.component';
 import Swal from 'sweetalert2';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -27,7 +28,7 @@ interface Plan {
   standalone: true,
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css'],
-  imports: [FormsModule, Formulario1Component, MatSlideToggleModule, MatCardModule, DomSanitizerPipe,MatIconModule]
+  imports: [FormsModule, Formulario1Component, MatSlideToggleModule, MatCardModule, DomSanitizerPipe,MatIconModule,QrComponent]
 })
 export class InicioComponent implements OnInit, OnDestroy {
 

@@ -1,0 +1,16 @@
+<h2>QR con datos de contactos</h2>
+
+<ul>
+  @for (contacto of contactos; track contacto.id) {
+    <li>
+      <strong>{{ contacto.nombre }}</strong><br>
+      <small>{{ contacto.email }}</small><br>
+      <qrcode 
+        [qrdata]="getJsonString(contacto)" 
+        [width]="256"
+        [colorDark]="'#000000'"
+        [colorLight]="'#ffffff'">
+      </qrcode>
+    </li>
+  }
+</ul>
