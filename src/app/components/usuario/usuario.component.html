@@ -210,10 +210,12 @@
           <thead>
             <tr>
               <th>Nombre</th>
+              <th>Id</th>
               <th>Email</th>
               <th>Asunto</th>
               <th>Mensaje</th>
               <th>Acciones</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -224,6 +226,13 @@
                     <input 
                       [(ngModel)]="contactoEditado.nombre" 
                       placeholder="Nombre"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input 
+                       
+                      placeholder="No puedes editar tu Id"
                       class="input-tabla"
                     />
                   </td>
@@ -258,6 +267,7 @@
               } @else {
                 <tr>
                   <td>{{mensaje.nombre}}</td>
+                  <td>{{mensaje.id}}</td>
                   <td>{{mensaje.email}}</td>
                   <td>{{mensaje.asunto}}</td>
                   <td>{{mensaje.mensaje}}</td>
