@@ -1,0 +1,40 @@
+<div class="bg-[#222222] text-white p-8 rounded-lg shadow-md max-w-xl w-full mx-auto my-10">
+
+  <div class="mb-6 text-center">
+    <h3 class="text-xl font-semibold text-[#C9B243]">Obtén tu QR personal</h3>
+    <p>
+    Pase gratis por un día.
+    Valide en recepción.
+    Solo nuevos usuarios
+    </p>
+	    
+  </div>
+  
+  <form (ngSubmit)="buscar()">
+    <div class="mb-4">
+      <label class="block text-[#C9B243] font-medium mb-1">Ingresa tu Id</label>
+      <input 
+        type="text" 
+        name="usuarioId"
+        [(ngModel)]="usuarioId" 
+        class="w-full p-2 rounded bg-[#1e1e1e] border border-[#C9B243] text-white" 
+        required >
+    </div>
+
+    <button mat-flat-button color="accent" class="boton-enviar" type="submit">Buscar</button>
+  </form>
+
+  <!-- Muestra el QR si hay un contacto -->
+  @if (contacto) {
+    <div class="mt-6 text-center qr">
+    
+     
+      <qrcode 
+        [qrdata]="getJsonString(contacto)" 
+        [width]="256"
+        [colorDark]="'#000000'"
+        [colorLight]="'#ffffff'">
+      </qrcode>
+    </div>
+  }
+</div>
