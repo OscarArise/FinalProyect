@@ -11,11 +11,12 @@ import { CommonModule } from '@angular/common';
 import { AutenticacionService } from '../../servicio/firebase/auth/autenticacion.service';
 import { HttpClient } from '@angular/common/http';
 import { RecaptchaModule, RecaptchaComponent } from 'ng-recaptcha';
+import { ChartSolicitudesComponent } from '../chart-solicitudes/chart-solicitudes.component';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [FormsModule, CommonModule, RecaptchaModule],
+  imports: [FormsModule, CommonModule, RecaptchaModule, ChartSolicitudesComponent],
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
@@ -58,6 +59,9 @@ export class UsuarioComponent implements OnInit {
 
   mostrarAlertCaptcha: boolean = false;
 
+  isAdmin = false;
+  username: string = '';
+  
   constructor(
     private cuentasService: CuentasService,
     private usuarioEstadoService: UsuarioEstadoService,
@@ -79,6 +83,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  	
     this.usuarioEstadoService.usuario$.subscribe(usuario => {
       this.usuarioActual = usuario;
       if (this.usuarioActual) {

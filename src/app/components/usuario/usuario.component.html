@@ -1,3 +1,4 @@
+<!--	usuario.component.html	-->
 @if (!loginUsuario) {
   <div class="container">
     <!-- Formulario de Login -->
@@ -210,7 +211,7 @@
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Id</th>
+              <th>Id para el QR</th>
               <th>Email</th>
               <th>Asunto</th>
               <th>Mensaje</th>
@@ -296,6 +297,7 @@
           <thead>
             <tr>
               <th>Nombre</th>
+              <th>Id</th>
               <th>Teléfono</th>
               <th>Clase</th>
               <th>Fecha</th>
@@ -311,6 +313,13 @@
                     <input 
                       [(ngModel)]="suscripcionEditada.nombre" 
                       placeholder="Nombre"
+                      class="input-tabla"
+                    />
+                  </td>
+                  <td>
+                    <input	readonly 
+                      [(ngModel)]="suscripcionEditada.id" 
+                      placeholder="Id"
                       class="input-tabla"
                     />
                   </td>
@@ -350,6 +359,7 @@
               } @else {
                 <tr>
                   <td>{{suscripcion.nombre}}</td>
+                  <td>{{suscripcion.id}}</td>
                   <td>{{suscripcion.telefono}}</td>
                   <td>{{suscripcion.claseSeleccionada}}</td>
                   <td>{{suscripcion.fecha}}</td>
@@ -370,4 +380,16 @@
       <p class="text-blanco">No hay suscripciones.</p>
     </div>
   }
+
+
+
+  @if (usuario.username == "admin") {
+  
+	<div class="mensaje">
+    	<h2>Gráfica de solicitudes por clase</h2>
+    	<app-chart-solicitudes></app-chart-solicitudes>
+      </div>
+
+  }
+
 }
