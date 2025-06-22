@@ -7,6 +7,7 @@ import { HeaderComponent } from "./components/header/header.component";
 import { SuscripcionComponent } from './components/suscripcion/suscripcion.component';
 import { LoaderComponent } from "./shared/loader/loader.component";
 import { CarritoFlotanteComponent } from '../app/components/carrito-flotante/carrito-flotante/carrito-flotante.component';
+import { AccesibilidadComponent } from './components/accesibilidad/accesibilidad.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -18,10 +19,13 @@ import { CarritoFlotanteComponent } from '../app/components/carrito-flotante/car
     FooterComponent, 
     SuscripcionComponent,
     CarritoFlotanteComponent,
-    LoaderComponent
+    LoaderComponent,
+    AccesibilidadComponent
   ],
   template: `<router-outlet />
-             <app-carrito-flotante></app-carrito-flotante>`,
+             <app-carrito-flotante></app-carrito-flotante>
+             <app-accesibilidad></app-accesibilidad>`,
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
