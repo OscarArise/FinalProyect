@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../servicio/notificacion/notification.service';
 
 @Component({
   selector: 'app-conocenos',
@@ -20,7 +21,10 @@ export class ConocenosComponent {
   // URL base de tu API (ajusta según tu configuración)
   private apiUrl = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) {
     this.obtenerEntrenadores();
   }
 
@@ -61,12 +65,18 @@ export class ConocenosComponent {
 
     // Validación básica
     if (!correo || !mensaje) {
-      alert('Por favor completa todos los campos');
+      this.notificationService.showError({
+        title: 'Campos requeridos',
+        text: 'Por favor completa todos los campos'
+      });
       return;
     }
 
     if (mensaje.length < 10) {
-      alert('El mensaje debe tener al menos 10 caracteres');
+      this.notificationService.showError({
+        title: 'Mensaje muy corto',
+        text: 'El mensaje debe tener al menos 10 caracteres'
+      });
       return;
     }
 
@@ -83,10 +93,18 @@ export class ConocenosComponent {
       .subscribe({
         next: (response: any) => {
           console.log('Respuesta del servidor:', response);
-          alert('¡Correo enviado con éxito! Te responderemos pronto.');
           
-          // Limpiar el formulario
-          form.reset();
+          this.notificationService.showSuccessWithCallback({
+            title: '¡Éxito!',
+            text: 'Correo enviado con éxito. Te responderemos pronto.',
+            timer: 3000,
+            timerProgressBar: true
+          }).then(() => {
+            // Limpiar el formulario después de que se cierre la notificación
+            form.reset();
+            this.mostrarFormulario = false; // Opcional: cerrar el formulario
+          });
+          
           this.enviandoCorreo = false;
         },
         error: (error) => {
@@ -101,7 +119,11 @@ export class ConocenosComponent {
             mensajeError += 'Por favor intenta de nuevo más tarde.';
           }
           
-          alert(mensajeError);
+          this.notificationService.showError({
+            title: 'Error de envío',
+            text: mensajeError
+          });
+          
           this.enviandoCorreo = false;
         }
       });
