@@ -1,11 +1,13 @@
 @import "tailwindcss";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body {
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
   overflow-x: hidden;
 }
 
+/* Estilos de contraste existentes */
 body.contraste-activo {
   background: #222 !important;
   color: #ffe600 !important;
@@ -16,4 +18,91 @@ body.contraste-activo button {
   background: #ffe600 !important;
   color: #222 !important;
   border: 2px solid #ffe600 !important;
+}
+
+/* Importar fuentes para dislexia */
+@import url('https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap');
+
+/* Fallback para OpenDyslexic si Google Fonts falla */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@master/otf/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@master/otf/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Estilos para fuente dislexia */
+.texto-dislexia,
+.texto-dislexia *:not(.material-icons):not(.mat-icon) {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', cursive, sans-serif !important;
+}
+
+.texto-dislexia {
+  line-height: 1.5 !important;
+  letter-spacing: 0.05em !important;
+}
+
+.texto-dislexia h1,
+.texto-dislexia h2,
+.texto-dislexia h3,
+.texto-dislexia h4,
+.texto-dislexia h5,
+.texto-dislexia h6 {
+  line-height: 1.3 !important;
+  letter-spacing: 0.03em !important;
+}
+
+.texto-dislexia button,
+.texto-dislexia input,
+.texto-dislexia textarea,
+.texto-dislexia select {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', cursive, sans-serif !important;
+}
+
+/* Excluir iconos de Material Icons del cambio de fuente */
+.texto-dislexia .material-icons,
+.texto-dislexia .mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
+/* Estilos para modo oscuro */
+.dark {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+.dark * {
+  color: #ffffff;
+}
+
+.dark button {
+  background-color: #333333;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #333333;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+/* Transiciones suaves */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  transition: font-family 0.2s ease;
 }
