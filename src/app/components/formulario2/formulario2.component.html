@@ -12,7 +12,28 @@
                style="background: linear-gradient(135deg, #333333, #1e1e1e); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
             <h3 style="color: #ffffff; margin-bottom: 10px;">{{ plan.nombre }}</h3>
             <p style="color: #cccccc; margin-bottom: 8px;">{{ plan.descripcion }}</p>
-            <p style="color: #C9B243; font-weight: bold;">{{ plan.precio }}</p>
+            <p style="color: #C9B243; font-weight: bold; margin-bottom: 16px;">{{ plan.precioTexto }}</p>
+            
+            <!-- Botón Suscribirse -->
+            <button 
+              (click)="agregarPlanAlCarrito(plan)"
+              [disabled]="!puedeAgregarPlan() || estaEnCarrito(plan.id)"
+              [class]="estaEnCarrito(plan.id) ? 
+                'w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed' : 
+                (!puedeAgregarPlan() ? 
+                  'w-full bg-gray-400 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed' : 
+                  'w-full bg-[#C9B243] hover:bg-[#a89b5a] text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200')">
+              
+              @if (estaEnCarrito(plan.id)) {
+                ✓ En Carrito
+              } @else if (!estaLogueado) {
+                Inicia Sesión
+              } @else if (carritoService.tieneSuscripcion()) {
+                Suscripción Activa
+              } @else {
+                Suscribirse
+              }
+            </button>
           </div>
         }
       </div>
@@ -28,13 +49,34 @@
              style="background: linear-gradient(135deg, #333333, #1e1e1e); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
           <h3 style="color: #ffffff; margin-bottom: 10px;">{{ clase.nombre }}</h3>
           <p style="color: #cccccc; margin-bottom: 6px;">{{ clase.descripcion }}</p>
-          <p style="color: #ffffff;">{{ clase.horario }}</p>
-          <h4 style="color: #C9B243; margin-top: 12px;">Entrenadores:</h4>
-          <ul>
+          <p style="color: #ffffff; margin-bottom: 6px;">{{ clase.horario }}</p>
+          <p style="color: #C9B243; font-weight: bold; margin-bottom: 12px;">${{ clase.precio }}</p>
+          
+          <h4 style="color: #C9B243; margin-top: 12px; margin-bottom: 8px;">Entrenadores:</h4>
+          <ul style="margin-bottom: 16px;">
             @for(entrenador of clase.entrenadores; track entrenador) {
               <li style="color: #cccccc;">{{ entrenador }}</li>
             }
           </ul>
+
+          <!-- Botón Agregar Clase -->
+          <button 
+            (click)="agregarClaseAlCarrito(clase)"
+            [disabled]="!estaLogueado || estaEnCarrito(clase.id)"
+            [class]="estaEnCarrito(clase.id) ? 
+              'w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed' : 
+              (!estaLogueado ? 
+                'w-full bg-gray-400 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed' : 
+                'w-full bg-[#C9B243] hover:bg-[#a89b5a] text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200')">
+            
+            @if (estaEnCarrito(clase.id)) {
+              ✓ En Carrito
+            } @else if (!estaLogueado) {
+              Inicia Sesión
+            } @else {
+              Agregar Clase
+            }
+          </button>
         </div>
       }
     </div>
