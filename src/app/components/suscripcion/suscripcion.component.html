@@ -1,9 +1,11 @@
-<app-formulario2 [datosSuscripcion]="datosParaFormulario2"></app-formulario2>
 
-<div class="min-h-screen bg-gradient-to-br from-[#D6C59D] via-[#E2D1B3] to-[#F5F5F5] flex items-center justify-center p-8">
+
+<div class="min-h-screen bg-[linear-gradient(135deg,_#1a1a1a,_#2e2e2e,_#C9B243,_#E2D1B3,_#ffffff)] to-[#F5F5F5] flex items-center justify-center p-8">
   <div class="w-full max-w-4xl">
+          <app-formulario2 [datosSuscripcion]="datosParaFormulario2"></app-formulario2>
+
     <!-- Formulario -->
-    <div class="formulario text-white p-6 rounded-xl w-full mb-6" style="background: linear-gradient(135deg, #333333, #1e1e1e);">
+    <div class="formulario bg-[linear-gradient(135deg,_#1a1a1a,_#2e2e2e,_#C9B243,_#E2D1B3,_#ffffff)] text-white p-6 rounded-xl w-full mb-6" style="background: linear-gradient(135deg, #333333, #1e1e1e);">
       <form [formGroup]="suscripcionForm" (ngSubmit)="enviar()" class="space-y-6">
         <div>
           <label class="block text-[#C9B243] font-semibold">Nombre:</label>
@@ -62,6 +64,7 @@
           Enviar
         </button>
       </form>
+      
     </div>
 
     <!-- Buscar ejercicio -->
