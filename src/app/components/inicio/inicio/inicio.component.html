@@ -1,59 +1,68 @@
-<div class="inicio-container">
-  <div class="carrusel-container overflow-hidden relative w-full h-64">
-    <mat-card class="carrusel w-full h-full flex items-center justify-center">
-      <mat-slide-toggle (change)="anterior()" class="mr-4">&#9664;</mat-slide-toggle>
+<div class="min-h-screen bg-[linear-gradient(135deg,_#1a1a1a,_#2e2e2e,_#C9B243,_#E2D1B3,_#ffffff)] text-white p-4 sm:p-6 lg:p-10">
+  
+  <!-- Carrusel -->
+  <div class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[500px] border-2 border-[#C9B243] rounded-xl shadow-xl overflow-hidden mb-8">
+    <mat-card class="w-full h-full flex items-center justify-center bg-transparent border-none shadow-none">
+      <button class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-[#C9B243] text-[#C9B243] hover:text-black p-2 sm:p-3 text-lg sm:text-xl transition-all duration-300 rounded z-10" 
+              (click)="anterior()">&#9664;</button>
+      
       @if (slides && slides.length > 0) {
-        <div class="slides flex w-full h-full transition-transform duration-500" [style.transform]="'translateX(-' + indiceActual * 100 + '%)'">
+        <div class="flex w-full h-full transition-transform duration-500" 
+             [style.transform]="'translateX(-' + indiceActual * 100 + '%)'">
           @for (slide of slides; track slide.src) {
-            <div class="slide flex-none w-full h-full">
+            <div class="flex-none w-full h-full">
               <img [src]="slide.src" [alt]="slide.alt" class="w-full h-full object-cover">
             </div>
           }
         </div>
       } @else {
         <div class="text-center text-gray-500">
-          <p>No hay imágenes disponibles</p>
+          <p class="text-sm sm:text-base">No hay imágenes disponibles</p>
         </div>
       }
-      <mat-slide-toggle (change)="siguiente()" class="ml-4">&#9654;</mat-slide-toggle>
+      
+      <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-[#C9B243] text-[#C9B243] hover:text-black p-2 sm:p-3 text-lg sm:text-xl transition-all duration-300 rounded z-10" 
+              (click)="siguiente()">&#9654;</button>
     </mat-card>
   </div>
 
-
-  <div class="ubicacion mt-8">
-    <h2>Ubicación</h2>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.3322612293787!2d-102.3110291!3d21.893397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429eef53562b7f1%3A0xc87b919f2bc62787!2sGimnasio+Eter+Gym+Aguascalientes!5e0!3m2!1ses!2smx!4v1682901342194!5m2!1ses!2smx"
-      width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  <!-- Ubicación -->
+  <div class="mb-8 sm:mb-12">
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl text-center text-white mb-6 sm:mb-8 font-bold uppercase relative">
+      Ubicación
+      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white rounded mt-2"></div>
+    </h2>
+    <div class="flex justify-center">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.3322612293787!2d-102.3110291!3d21.893397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429eef53562b7f1%3A0xc87b919f2bc62787!2sGimnasio+Eter+Gym+Aguascalientes!5e0!3m2!1ses!2smx!4v1682901342194!5m2!1ses!2smx"
+        class="w-full max-w-4xl h-64 sm:h-80 md:h-96 lg:h-[450px] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.5)] border-0 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_6px_14px_rgba(0,0,0,0.5)]"
+        allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
   </div>
 
-  <div class="ubicacion mt-8">
-    <h2>Nuestras Instalaciones</h2>
-    <iframe width="560" height="315" [src]=" video | domSanitizer: 'https://www.youtube.com/embed/'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  </div>
-  <div class="planes mt-8">
-    <h2 class="plan">Planes</h2>
-    @if (mostrarPlanes && planes && planes.length > 0) {
-      <div class="grid grid-cols-3 gap-4">
-        @for (plan of planes; track plan.nombre; let i = $index) {
-          <div class="card p-4 bg-gray-100 rounded-lg">
-            <h3>{{ plan.nombre }}</h3>
-            <p>{{ plan.descripcion }}</p>
-            <p><strong>Precio:</strong> ${{ plan.precio }}</p>
-            <p><strong>Duración:</strong> {{ plan.duracion }}</p>
-            <button (click)="guardarEnLocalStorage(i + 1)">Seleccionar Plan</button>
-          </div>
-        }
-      </div>
-    } @else {
-      <div class="text-center text-gray-500">
-        <p>Cargando planes...</p>
-      </div>
-    }
+  <!-- Nuestras Instalaciones -->
+  <div class="mb-8 sm:mb-12">
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl text-center text-white mb-6 sm:mb-8 font-bold uppercase relative">
+      Nuestras Instalaciones
+      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-white rounded mt-2"></div>
+    </h2>
+    <div class="flex justify-center">
+      <iframe 
+        class="w-full max-w-4xl h-64 sm:h-80 md:h-96 lg:h-[315px] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_6px_14px_rgba(0,0,0,0.5)]" 
+        [src]="video | domSanitizer: 'https://www.youtube.com/embed/'" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
 
 
 
+  <!-- Formulario -->
   <app-formulario1 (enviarFormulario)="agregarMensaje($event)"></app-formulario1>
 
 </div>
