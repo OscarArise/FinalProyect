@@ -62,7 +62,10 @@ export class UsuarioComponent implements OnInit {
   mostrarAlertCaptcha: boolean = false;
 
   username: string = '';
-  
+  telefono: string = '';
+  codigoSMS: string = '';
+  mostrarCodigo: boolean = false;
+
   constructor(
     private cuentasService: CuentasService,
     private usuarioEstadoService: UsuarioEstadoService,
@@ -544,6 +547,35 @@ export class UsuarioComponent implements OnInit {
       .catch(err => {
         console.error('Error en login con GitHub:', err);
         Swal.fire('Error', 'No se pudo iniciar sesión con GitHub', 'error');
+      });
+  }
+
+  enviarCodigoTelefono() {
+    this.autenticationService.initRecaptcha();
+    this.autenticationService.enviarCodigoTelefono(this.telefono)
+      .then(() => {
+        this.mostrarCodigo = true;
+        Swal.fire('Código enviado', 'Revisa tu SMS e ingresa el código.', 'info');
+      })
+      .catch(err => {
+        Swal.fire('Error', err.message, 'error');
+      });
+  }
+
+  verificarCodigoTelefono() {
+    this.autenticationService.verificarCodigo(this.codigoSMS)
+      .then(cred => {
+        this.loginUsuario = true;
+        this.usuario.username = cred.user?.phoneNumber ?? '';
+        this.usuarioActual = this.usuario.username;
+        this.uidActual = cred.user?.uid ?? '';
+        this.usuarioEstadoService.loginUsuario(this.usuarioActual);
+        this.usuarioEstadoService.agregarUID(this.uidActual);
+        Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
+        this.mostrarCodigo = false;
+      })
+      .catch(err => {
+        Swal.fire('Error', err.message, 'error');
       });
   }
 
