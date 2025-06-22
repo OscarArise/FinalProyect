@@ -1,0 +1,119 @@
+<!-- accesibilidad.component.html -->
+<!-- Cambiar la posición para que no se superponga con el carrito -->
+<div class="fixed bottom-5 left-5 z-40">
+  
+  <!-- Botón Principal -->
+  <button 
+    (click)="toggleMenu()"
+    class="w-14 h-14 rounded-full bg-[#C9B243] hover:bg-white hover:text-[#C9B243] text-white border-2 border-[#C9B243] focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg flex items-center justify-center"
+    [attr.aria-label]="menuAbierto ? 'Cerrar menú de accesibilidad' : 'Abrir menú de accesibilidad'"
+    [attr.aria-expanded]="menuAbierto">
+    <mat-icon class="text-2xl">accessibility</mat-icon>
+  </button>
+
+  <!-- Menú de Opciones - Ajustar posición del menú -->
+  <div 
+    class="absolute bottom-16 left-0 flex flex-col gap-2"
+    [ngClass]="{'hidden': !menuAbierto}">
+    
+    <!-- Tipo de Letra -->
+    <div class="relative group">
+      <button 
+        (click)="toggleFuenteDislexia()"
+        [ngClass]="{
+          'bg-green-600 border-green-600 text-white': estado.fonteDislexia,
+          'bg-[#2a2a2a] text-white border-[#C9B243] hover:bg-[#C9B243] hover:text-white': !estado.fonteDislexia
+        }"
+        class="w-12 h-12 rounded-full border-2 focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg flex items-center justify-center"
+        [attr.aria-label]="estado.fonteDislexia ? 'Desactivar fuente para dislexia' : 'Activar fuente para dislexia'">
+        <mat-icon class="text-lg">font_download</mat-icon>
+      </button>
+      <!-- Tooltip ajustado para el lado izquierdo -->
+      <div class="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none">
+        {{ estado.fonteDislexia ? 'Fuente Normal' : 'Fuente Dislexia' }}
+      </div>
+    </div>
+
+    <!-- Aumentar Texto -->
+    <div class="relative group">
+      <button 
+        (click)="aumentarTexto()"
+        class="w-12 h-12 rounded-full bg-[#2a2a2a] text-white border-2 border-[#C9B243] hover:bg-[#C9B243] hover:text-white focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg flex items-center justify-center"
+        aria-label="Aumentar tamaño de texto">
+        <mat-icon class="text-lg">text_increase</mat-icon>
+      </button>
+      <div class="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none">
+        Aumentar Texto
+      </div>
+    </div>
+
+    <!-- Disminuir Texto -->
+    <div class="relative group">
+      <button 
+        (click)="disminuirTexto()"
+        class="w-12 h-12 rounded-full bg-[#2a2a2a] text-white border-2 border-[#C9B243] hover:bg-[#C9B243] hover:text-white focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg flex items-center justify-center"
+        aria-label="Disminuir tamaño de texto">
+        <mat-icon class="text-lg">text_decrease</mat-icon>
+      </button>
+      <div class="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none">
+        Disminuir Texto
+      </div>
+    </div>
+
+    <!-- Contraste/Modo Noche -->
+    <div class="relative group">
+      <button 
+        (click)="toggleModoNoche()"
+        [ngClass]="{
+          'bg-blue-600 border-blue-600 text-white': estado.modoNoche,
+          'bg-[#2a2a2a] text-white border-[#C9B243] hover:bg-[#C9B243] hover:text-white': !estado.modoNoche
+        }"
+        class="w-12 h-12 rounded-full border-2 focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg flex items-center justify-center"
+        aria-label="Cambiar modo de contraste">
+        <mat-icon class="text-lg">{{ estado.modoNoche ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+      <div class="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none">
+        {{ estado.modoNoche ? 'Modo Normal' : 'Modo Noche' }}
+      </div>
+    </div>
+
+    <!-- Lector de Pantalla -->
+    <div class="relative group">
+      <button 
+        (click)="toggleLectorPantalla()"
+        [ngClass]="{
+          'bg-red-600 border-red-600 text-white': estado.leyendoPantalla,
+          'bg-[#2a2a2a] text-white border-[#C9B243] hover:bg-[#C9B243] hover:text-white': !estado.leyendoPantalla
+        }"
+        class="w-12 h-12 rounded-full border-2 focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg flex items-center justify-center"
+        [attr.aria-label]="estado.leyendoPantalla ? 'Detener lectura de pantalla' : 'Iniciar lectura de pantalla'">
+        <mat-icon class="text-lg">{{ estado.leyendoPantalla ? 'stop' : 'volume_up' }}</mat-icon>
+      </button>
+      <div class="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none">
+        {{ estado.leyendoPantalla ? 'Detener Lectura' : 'Leer Pantalla' }}
+      </div>
+    </div>
+
+    <!-- Restablecer Todo -->
+    <div class="relative group">
+      <button 
+        (click)="restablecerTodo()"
+        class="w-12 h-12 rounded-full bg-red-500 text-white border-2 border-red-500 hover:bg-red-600 hover:border-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 shadow-lg flex items-center justify-center"
+        aria-label="Restablecer todas las opciones de accesibilidad">
+        <mat-icon class="text-lg">refresh</mat-icon>
+      </button>
+      <div class="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none">
+        Restablecer Todo
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Indicador de Tamaño de Texto - Ajustar posición -->
+  <div 
+    class="absolute bottom-16 left-16 bg-black text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap"
+    [ngClass]="{'hidden': !mostrarIndicador}">
+    Texto: {{ estado.tamanoTexto }}px
+  </div>
+
+</div>

@@ -1,0 +1,42 @@
+/* accesibilidad.component.css */
+
+/* Transiciones suaves para los tooltips */
+.group:hover .group-hover\:opacity-100 {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Animación para los botones del menú */
+.fixed .flex-col {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Mejoras visuales para el menú de accesibilidad */
+.fixed button {
+  transition: all 0.2s ease-in-out;
+}
+
+.fixed button:hover {
+  transform: scale(1.05);
+}
+
+/* Estilos específicos para tooltips */
+.group .absolute {
+  z-index: 9999;
+  white-space: nowrap;
+}
+
+/* Asegurar que el menú esté siempre visible */
+.fixed {
+  z-index: 9999;
+}
+
+/* Estilo para el indicador de tamaño */
+.absolute.bg-black {
+  z-index: 10000;
+  animation: fadeInOut 0.3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
