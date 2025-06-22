@@ -26,6 +26,7 @@ export class UsuarioComponent implements OnInit {
   @ViewChild('recaptchaRegistroRef', { static: false }) recaptchaRegistroRef?: RecaptchaComponent;
 
   mostrarRegistro: boolean = false;
+  esAdmin: boolean = false;
 
   usuario: Usuario = {
     username: '',
@@ -60,7 +61,6 @@ export class UsuarioComponent implements OnInit {
 
   mostrarAlertCaptcha: boolean = false;
 
-  isAdmin = false;
   username: string = '';
   
   constructor(
@@ -81,6 +81,11 @@ export class UsuarioComponent implements OnInit {
     if( this.usuarioActual) {
       this.loginUsuario = true;
     }
+    if(this.usuarioActual == 'admin'){
+      this.esAdmin = true;
+    }else {
+      this.esAdmin = false;
+    }
   }
 
   ngOnInit(): void {
@@ -100,21 +105,38 @@ export class UsuarioComponent implements OnInit {
     this.usuarioEstadoService.uid$.subscribe(uid => {
       this.uidActual = uid;
     });
+    if(this.usuarioActual == 'admin'){
+      this.esAdmin = true;
+    }else {
+      this.esAdmin = false;
+    }
   }
 
   cargarDatos() {
-    if (!this.usuarioActual) return;
-    this.contactoService.obtenerContactosPorUsuario(this.uidActual).subscribe({
-      next: (contactos) => this.mensajesContacto = contactos,
-      error: () => this.mensajesContacto = []
-    });
-    this.solicitudesService.obtenerSolicitudesPorUsuario(this.uidActual).subscribe({
-      next: (solicitudes) => this.suscripciones = solicitudes,
-      error: () => this.suscripciones = []
-    });
+    if (this.esAdmin == true) {
+      this.contactoService.obtenerContactos().subscribe({
+        next: (contactos) => this.mensajesContacto = contactos,
+        error: () => this.mensajesContacto = []
+      });
+      this.solicitudesService.obtenerSolicitudes().subscribe({
+        next: (solicitudes) => this.suscripciones = solicitudes,
+        error: () => this.suscripciones = []
+      });
+    }else {
+      if (!this.usuarioActual) return;
+      this.contactoService.obtenerContactosPorUsuario(this.uidActual).subscribe({
+        next: (contactos) => this.mensajesContacto = contactos,
+        error: () => this.mensajesContacto = []
+      });
+      this.solicitudesService.obtenerSolicitudesPorUsuario(this.uidActual).subscribe({
+        next: (solicitudes) => this.suscripciones = solicitudes,
+        error: () => this.suscripciones = []
+      });
+    }
     console.log('DATOS CARGADOS de la funcion cargarDatos');
     console.log('Datos cargados:', this.mensajesContacto);
     console.log('Suscripciones cargadas:', this.suscripciones);
+
   }
 
   resolvedCaptcha(captchaResponse: string | null): void {
@@ -293,6 +315,11 @@ export class UsuarioComponent implements OnInit {
         this.usuarioEstadoService.login(this.usuario.username, this.usuario.password)
         .then(() => {
           this.loginUsuario = true;
+          if(this.usuarioActual == 'admin'){
+            this.esAdmin = true;
+          }else {
+            this.esAdmin = false;
+          }
           this.cargarDatos();
           Swal.fire({
             icon: 'success',
