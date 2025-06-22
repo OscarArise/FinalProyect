@@ -1,28 +1,57 @@
-<header class="header-container">
-    <img src="log2.png" alt="">
-    <p>IMPIRIO GYM</p>
-<div class="componente1">
-  <mat-toolbar class="menu" color="primary">
-    <!-- Menú desplegable -->
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Abrir menú">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu" class="custom-menu">
-      <button mat-menu-item (click)="actionSelected.emit('perfil')" class="btn1">
-        <mat-icon>person</mat-icon>
-        <span>Perfil</span>
-      </button>
-      <button mat-menu-item (click)="actionSelected.emit('configuracion')" class="btn2">
-        <mat-icon>settings</mat-icon>
-        <span>Configuración</span>
-      </button>
-      <button mat-menu-item (click)="actionSelected.emit('cerrar-sesion')" class="btn3">
-        <mat-icon>logout</mat-icon>
-        <span>Cerrar sesión</span>
-      </button>
-    </mat-menu>
-    <span class="spacer"></span>
-  </mat-toolbar>
-</div>
 
-</header>
+<header class="bg-cover bg-center bg-no-repeat min-h-[150px] flex items-center justify-start p-4 border-b-3 border-[#E0aa3e]" 
+        style="background-image: url(/head3.png);">
+  
+  <!-- Logo e Imperio Gym -->
+  <div class="flex items-center">
+    <img src="log2.png" alt="Logo" 
+         class="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] lg:w-[109px] lg:h-[110px] object-contain bg-white rounded-full border-2 border-[#E0aa3e] mr-2 sm:mr-3 lg:mr-4">
+    
+    <p class="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-4xl tracking-wide relative shine-text m-0">
+      IMPIRIO GYM
+    </p>
+  </div>
+
+  <div class="flex-1"></div>
+
+  <!-- Menú desplegable para móvil y tablet (solo visible en sm y md) -->
+  <div class="block sm:block md:block lg:hidden">
+    <mat-toolbar class="bg-[#000000b2]">
+      <button mat-icon-button [matMenuTriggerFor]="mobileMenu" 
+              class="w-12 h-12 rounded-full bg-[#C9B243] flex items-center justify-center p-0 hover:rotate-360 transition-transform duration-300">
+        <mat-icon class="text-black text-2xl">menu</mat-icon>
+      </button>
+      
+      <!-- Opción 1: Usar panelClass para forzar el fondo -->
+      <mat-menu #mobileMenu="matMenu" 
+                class="mt-2" 
+                panelClass="custom-menu-panel">
+        <!-- Navegación -->
+        <button mat-menu-item (click)="navigateTo('/')" 
+                class="menu-item-custom">
+          <mat-icon>home</mat-icon>
+          <span>Home</span>
+        </button>
+        
+        <button mat-menu-item (click)="navigateTo('/conocenos')" 
+                class="menu-item-custom">
+          <mat-icon>info</mat-icon>
+          <span>About</span>
+        </button>
+        
+        <button mat-menu-item (click)="navigateTo('/suscripcion')" 
+                class="menu-item-custom">
+          <mat-icon>credit_card</mat-icon>
+          <span>Subscriptions</span>
+        </button>
+
+        <!-- Usuario y acciones -->
+        <button mat-menu-item (click)="navigateTo('/usuario')" 
+                class="menu-item-custom">
+          <mat-icon>person</mat-icon>
+          <span *ngIf="usuario === '' || usuario === undefined || usuario === null">Usuario</span>
+          <span *ngIf="usuario !== '' && usuario !== undefined && usuario !== null">Hola! {{usuario}}</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+  </div>

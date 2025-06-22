@@ -1,8 +1,6 @@
-
 <app-formulario2 [datosSuscripcion]="datosParaFormulario2"></app-formulario2>
 
 <div class="min-h-screen bg-gradient-to-br from-[#D6C59D] via-[#E2D1B3] to-[#F5F5F5] flex items-center justify-center p-8">
-  <!-- Contenedor principal para el formulario, buscador y ejercicios -->
   <div class="w-full max-w-4xl">
     <!-- Formulario -->
     <div class="formulario text-white p-6 rounded-xl w-full mb-6" style="background: linear-gradient(135deg, #333333, #1e1e1e);">
@@ -25,7 +23,7 @@
 
         <div>
           <label class="block text-[#C9B243] font-semibold">Clase:</label>
-          <select formControlName="clase" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]" >
+          <select formControlName="clase" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]">
             <option value="" disabled selected class="text-[#cccccc]">Selecciona una clase</option>
             @for(clase of clases; track clase) {
               <option [value]="clase" class="text-black">{{ clase }}</option>
@@ -38,7 +36,7 @@
 
         <div>
           <label class="block text-[#C9B243] font-semibold">Fecha para ser contactado:</label>
-          <input type="date" formControlName="fecha" [min]="minFecha" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]" >
+          <input type="date" formControlName="fecha" [min]="minFecha" class="w-full p-3 rounded bg-[#2a2a2a] text-white border border-[#C9B243]">
           @if(suscripcionForm.get('fecha')?.invalid && suscripcionForm.get('fecha')?.touched) {
             <div class="text-[#C9B243] text-sm">Selecciona una fecha válida (no anterior a hoy)</div>
           }
@@ -46,7 +44,7 @@
 
         <div>
           <label class="text-[#C9B243] flex items-center">
-            <input type="checkbox" formControlName="publicidad" class="mr-2" >
+            <input type="checkbox" formControlName="publicidad" class="mr-2">
             Deseo recibir publicidad
           </label>
         </div>
@@ -60,8 +58,7 @@
           [disabled]="suscripcionForm.invalid"
           class="w-full bg-[#C9B243] text-black font-semibold py-3 rounded
                  hover:bg-white hover:text-[#C9B243]
-                 transition-colors duration-200 ease-in-out"
-                 >
+                 transition-colors duration-200 ease-in-out">
           Enviar
         </button>
       </form>
@@ -69,49 +66,46 @@
 
     <!-- Buscar ejercicio -->
     <div class="w-full mb-6 flex justify-center">
-  <div class="w-full max-w-md">
-    <label class="block text-[#C9B243] font-semibold mb-1">Buscar ejercicio:</label>
-    <input
-      type="text"
-      [(ngModel)]="buscador"
-      name="buscador"
-      placeholder="Buscar"
-      class="w-full p-3 rounded-2xl bg-[#2a2a2a] text-white border border-[#C9B243] focus:outline-none focus:ring-2 focus:ring-[#C9B243]"
-    />
-  </div>
-</div>
-
+      <div class="w-full max-w-md">
+        <label class="block text-[#C9B243] font-semibold mb-1">Buscar ejercicio:</label>
+        <input
+          type="text"
+          [(ngModel)]="buscador"
+          name="buscador"
+          placeholder="Buscar"
+          class="w-full p-3 rounded-2xl bg-[#2a2a2a] text-white border border-[#C9B243] focus:outline-none focus:ring-2 focus:ring-[#C9B243]">
+      </div>
+    </div>
 
     <!-- Ejercicios -->
     <div class="w-full max-w-6xl mx-auto">
-  <div class="ejercicios p-10 rounded-xl text-white" style="background: linear-gradient(135deg, #333333, #1e1e1e);">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (ejer of ejerciciosFiltrados; track ejer; let i = $index) {
-        <div
-          class="p-6 rounded-lg border border-[#C9B243] shadow-md
-                 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out"
-          style="background: linear-gradient(135deg, #333333, #1e1e1e);"
-        >
-          <h3 class="text-[#C9B243] font-bold text-lg">{{ejer.name}}</h3>
-          <p class="text-white">{{ejer.muscle}}</p>
-          <p class="text-[#cccccc] text-sm">{{ejer.type}}</p>
-          <button
-            (click)="buscarAdetalle(ejer.name)"
-            class="mt-2 bg-[#C9B243] text-black px-4 py-2 rounded
-                   hover:bg-white hover:text-[#C9B243]
-                   transition-colors duration-200 ease-in-out"
-          >
-            Ver detalles
-          </button>
+      <div class="ejercicios p-10 rounded-xl text-white" style="background: linear-gradient(135deg, #333333, #1e1e1e);">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (ejer of ejerciciosFiltrados; track ejer; let i = $index) {
+            <div
+              class="p-6 rounded-lg border border-[#C9B243] shadow-md
+                     hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out"
+              style="background: linear-gradient(135deg, #333333, #1e1e1e);">
+              <h3 class="text-[#C9B243] font-bold text-lg">{{ejer.name}}</h3>
+              <p class="text-white">{{ejer.muscle}}</p>
+              <p class="text-[#cccccc] text-sm">{{ejer.type}}</p>
+              <button
+                (click)="buscarAdetalle(ejer.name)"
+                class="mt-2 bg-[#C9B243] text-black px-4 py-2 rounded
+                       hover:bg-white hover:text-[#C9B243]
+                       transition-colors duration-200 ease-in-out">
+                Ver detalles
+              </button>
+            </div>
+          }
         </div>
-      }
-    </div>
 
-    <div class="mensaje mt-6 text-center">
-      @if (ejerciciosFiltrados.length == 0) {
-        <h3 class="text-[#cccccc]">No se encontró ninguna coincidencia</h3>
-      }
+        <div class="mensaje mt-6 text-center">
+          @if (ejerciciosFiltrados.length == 0) {
+            <h3 class="text-[#cccccc]">No se encontró ninguna coincidencia</h3>
+          }
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </div>

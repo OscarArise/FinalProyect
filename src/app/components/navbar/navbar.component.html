@@ -1,15 +1,32 @@
-<div class="contenedor">
-    <nav>
-      <a routerLink=""><mat-icon class="user-icon">home</mat-icon>Home</a>
-      <a routerLink="/conocenos"><mat-icon class="user-icon">info</mat-icon>About</a>
-      <a routerLink="/suscripcion"><mat-icon class="user-icon">credit_card</mat-icon>Subscriptions</a>
-      <a routerLink="/usuario">
-        @if(usuario === '' || usuario === undefined || usuario === null){
-            <mat-icon class="user-icon">person</mat-icon>Usuario 
-        }@else{
-            <span style="color: white;">Hola! {{usuario}}</span>
-        }
-      </a>
-    </nav>
+<!-- NavBar - Solo visible en escritorio (lg) -->
+<div class="hidden lg:block text-white py-3 border-b-2 border-[#C9B243] shadow-md" style="background: linear-gradient(to right, #1a1a1a, #2e2e2e, #C9B243, #ffffff);">
+  <nav class="flex justify-center items-center space-x-8 mt-2">
+    <a routerLink=""
+       class="group flex items-center space-x-2 px-4 py-2 rounded-full text-[#C9B243] hover:bg-[#C9B243] hover:text-[#1a1a1a] transition-all duration-300 font-medium">
+      <mat-icon class="text-lg group-hover:text-[#1a1a1a]">home</mat-icon>
+      <span class="font-bold">Home</span>
+    </a>
 
-  </div>
+    <a routerLink="/conocenos"
+       class="group flex items-center space-x-2 px-4 py-2 rounded-full text-[#C9B243] hover:bg-[#C9B243] hover:text-[#1a1a1a] transition-all duration-300 font-medium">
+      <mat-icon class="text-lg group-hover:text-[#1a1a1a]">info</mat-icon>
+      <span class="font-bold">About</span>
+    </a>
+
+    <a routerLink="/suscripcion"
+       class="group flex items-center space-x-2 px-4 py-2 rounded-full text-[#c2ac3f] hover:bg-[#C9B243] hover:text-[#1a1a1a] transition-all duration-300 font-medium">
+      <mat-icon class="text-lg group-hover:text-[#1a1a1a]">credit_card</mat-icon>
+      <span class="font-bold">Subscriptions</span>
+    </a>
+
+    <a routerLink="/usuario"
+       class="group flex items-center space-x-2 px-4 py-2 rounded-full text-[#6e6329] hover:bg-[#C9B243] hover:text-[#1a1a1a] transition-all duration-300 font-medium">
+      <mat-icon class="text-lg group-hover:text-[#1a1a1a] user-icon">person</mat-icon>
+      @if(usuario === '' || usuario === undefined || usuario === null){
+        <span class="font-bold">Usuario</span>
+      }@else{
+        <span class="font-bold">Hola! {{usuario}}</span>
+      }
+    </a>
+  </nav>
+</div>

@@ -1,119 +1,39 @@
-header {
-    background-image: url(/head3.png);
-    background-size: cover;       /* Ajusta la imagen al tamaño */
-    background-position: center;  /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que se repita */
-    min-height: 150px;            /* Asegura que se vea */
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 18px 0;
-    border-bottom: 3px solid #E0aa3e;
-  }
-  
-  header img {
-  width: 109px;
-  height: 110px;
-  object-fit: contain;
-  background: #fff;
-  border-radius: 50%;
-  border: 2px solid #E0aa3e;
-  margin-right: 15px;
-  margin-left: 15px;
-  }
-  
-  header p {
-    font-size: 2.2rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: white;
-    margin: 0;
-    margin-right: 820px;
-  }
 
-header p::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 200%;
-  height: 39%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    transparent 100%
-  );
-  animation: shine 1.9s ease forwards; /* Solo una vez */
+.custom-menu-panel {
+  background-color: rgba(0, 0, 0, 0.692) !important;
+  border: 2px solid #000000b9 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 8px !important;
 }
 
-
-@keyframes shine {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
+/* Estilos para los items del menú */
+.menu-item-custom {
+  background-color: rgba(0, 0, 0, 0.836) !important;
+  border-top: 3px solid #C9B243 !important;
+  color: #C9B243 !important;
+  padding: 12px 16px !important;
+  transition: all 0.3s ease !important;
 }
 
-.spacer {
-  flex: 1 1 auto;
+.menu-item-custom:hover {
+  background-color: #473d089f !important;
+  color: #1a1a1a !important;
 }
 
-.mat-menu-panel {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
+.menu-item-custom:first-child {
+  border-top: none !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
 }
 
-.mat-menu-content {
-  padding: 0 !important;
+.menu-item-custom:last-child {
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
 }
 
-
-/* Estilos para los botones */
-.btn1, .btn2, .btn3 {
-  transition: background-color 0.3s ease, color 0.3s ease;
-  background-color: white; /* Fondo blanco opaco */
-  border-radius: 2px;
-}
-
-/* Estilos adicionales para los botones */
-.btn1 {
-  border-top: 3px solid #C9B243; /* Personalización del borde */
-}
-
-.btn2 {
-  border-top: 3px solid #C9B243; /* Personalización del borde */
-}
-
-.btn3 {
-  border-top: 3px solid #C9B243; /* Personalización del borde */
-  border-bottom: 3px solid #C9B243;
-}
-
-/* Estilo base del botón */
-.header-container button[mat-icon-button] {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: #C9B243;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Estilo del ícono */
-.header-container mat-icon {
-  font-size: 25px;
-  color: black;
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Animación al hacer hover */
-.header-container button[mat-icon-button]:hover mat-icon {
-  transform: rotate(360deg);
+/* Asegurar que los iconos y texto se vean correctamente */
+.menu-item-custom mat-icon {
+  margin-right: 8px !important;
+  color: inherit !important;
 }
