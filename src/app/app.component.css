@@ -1,0 +1,52 @@
+.accesibilidad-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 1rem 0;
+}
+
+.accesibilidad-buttons button {
+  background: linear-gradient(90deg, #FFD600, #FF8C00 80%);
+  color: #222;
+  border: none;
+  border-radius: 20px;
+  padding: 0.2em 0.3em;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0.1em;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+  cursor: pointer;
+  outline: none;
+  transition: 
+    background 0.2s, 
+    box-shadow 0.18s, 
+    transform 0.1s;
+  user-select: none;
+}
+
+.accesibilidad-buttons button:hover {
+  background: linear-gradient(90deg, #FF8C00 10%, #FFD600 90%);
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.16);
+  color: #111;
+  transform: scale(1.08);
+}
+
+.accesibilidad-buttons button:active {
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.12) inset;
+  background: linear-gradient(90deg, #FFC400 70%, #FF6F00 100%);
+  color: #000;
+  transform: scale(0.97);
+}
+
+
+.contraste-activo {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+.contraste-activo button {
+  background: #fff !important;
+  color: #111 !important;
+  border: 2px solid #fff;
+}

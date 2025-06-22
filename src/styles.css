@@ -6,3 +6,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 html, body {
   overflow-x: hidden;
 }
+
+body.contraste-activo {
+  background: #222 !important;
+  color: #ffe600 !important;
+  transition: all 0.3s;
+}
+
+body.contraste-activo button {
+  background: #ffe600 !important;
+  color: #222 !important;
+  border: 2px solid #ffe600 !important;
+}
