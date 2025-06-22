@@ -78,18 +78,14 @@ export class UsuarioComponent implements OnInit {
     this.usuarioEstadoService.uid$.subscribe(uid => {
       this.uidActual = uid;
     });
-    if( this.usuarioActual) {
+    if (this.usuarioActual) {
       this.loginUsuario = true;
     }
-    if(this.usuarioActual == 'admin'){
-      this.esAdmin = true;
-    }else {
-      this.esAdmin = false;
-    }
+    // Solo es admin si el username es exactamente 'admin'
+    this.esAdmin = (this.usuario.username === 'admin');
   }
 
   ngOnInit(): void {
-  	
     this.usuarioEstadoService.usuario$.subscribe(usuario => {
       this.usuarioActual = usuario;
       if (this.usuarioActual) {
@@ -97,39 +93,51 @@ export class UsuarioComponent implements OnInit {
         if (usuarioObj) {
           this.usuario.username = usuarioObj.username;
           this.usuario.nombre = usuarioObj.nombre;
-          this.loginUsuario = true;
+        } else {
+          this.usuario.username = this.usuarioActual;
         }
-        this.cargarDatos();
+        this.loginUsuario = true;
+        this.actualizarAdminYCargarDatos(); // SOLO AQUÍ
       }
     });
     this.usuarioEstadoService.uid$.subscribe(uid => {
       this.uidActual = uid;
     });
-    if(this.usuarioActual == 'admin'){
-      this.esAdmin = true;
-    }else {
-      this.esAdmin = false;
-    }
   }
 
   cargarDatos() {
-    if (this.esAdmin == true) {
+    console.log('es admin en cargarDatos:', this.esAdmin);
+    if (!this.usuarioActual) return;
+    if (this.esAdmin === true) {
       this.contactoService.obtenerContactos().subscribe({
-        next: (contactos) => this.mensajesContacto = contactos,
+        next: (contactos) => {
+          this.mensajesContacto = contactos;
+          console.log('ADMIN - TODOS LOS CONTACTOS:', contactos);
+        },
         error: () => this.mensajesContacto = []
       });
       this.solicitudesService.obtenerSolicitudes().subscribe({
-        next: (solicitudes) => this.suscripciones = solicitudes,
+        next: (solicitudes) => {
+          this.suscripciones = solicitudes;
+          console.log('ADMIN - TODAS LAS SOLICITUDES:', solicitudes);
+        },
         error: () => this.suscripciones = []
       });
-    }else {
-      if (!this.usuarioActual) return;
+    } else {
       this.contactoService.obtenerContactosPorUsuario(this.uidActual).subscribe({
-        next: (contactos) => this.mensajesContacto = contactos,
+        next: (contactos) => {
+          this.mensajesContacto = contactos;
+          console.log('USUARIO - SOLO SUS CONTACTOS:', contactos);
+          console.log('USUARIO uidActual:', this.uidActual);
+        },
         error: () => this.mensajesContacto = []
       });
       this.solicitudesService.obtenerSolicitudesPorUsuario(this.uidActual).subscribe({
-        next: (solicitudes) => this.suscripciones = solicitudes,
+        next: (solicitudes) => {
+          this.suscripciones = solicitudes;
+          console.log('USUARIO - SOLO SUS SOLICITUDES:', solicitudes);
+          console.log('USUARIO uidActual:', this.uidActual);
+        },
         error: () => this.suscripciones = []
       });
     }
@@ -315,12 +323,7 @@ export class UsuarioComponent implements OnInit {
         this.usuarioEstadoService.login(this.usuario.username, this.usuario.password)
         .then(() => {
           this.loginUsuario = true;
-          if(this.usuarioActual == 'admin'){
-            this.esAdmin = true;
-          }else {
-            this.esAdmin = false;
-          }
-          this.cargarDatos();
+          this.actualizarAdminYCargarDatos();
           Swal.fire({
             icon: 'success',
             title: '¡Bienvenido!',
@@ -479,6 +482,9 @@ export class UsuarioComponent implements OnInit {
   logout(): void {
     this.usuarioEstadoService.logoutUsuario();
     this.loginUsuario = false;
+    this.usuarioActual = '';
+    this.uidActual = '';
+    this.esAdmin = false;
     this.usuario.username = '';
     this.usuario.password = '';
     this.usuario.nombre = '';
@@ -493,47 +499,53 @@ export class UsuarioComponent implements OnInit {
     this.resetCaptcha();
   }
 
- loginConGoogle(): void {
-  this.autenticationService.loginConGoogle()
-    .then(cred => {
-      this.loginUsuario = true;
-      this.usuarioActual = cred.user?.email ?? '';
-      this.usuario.username = this.usuarioActual;
-      this.uidActual = cred.user?.uid ?? '';
-      this.usuarioEstadoService.loginUsuario(this.usuarioActual);
-      this.usuarioEstadoService.agregarUID(this.uidActual);
-      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
-    })
-    .catch(err => {
-      console.error('Error en login con Google:', err);
-      Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
-    });
+  private actualizarAdminYCargarDatos() {
+    console.log('Actualizando admin y cargando datos...');
+    console.log('es admin:', this.esAdmin);
+    this.esAdmin = (this.usuario.username === 'admin');
+    console.log('es admin actualizado:', this.esAdmin);
+    this.cargarDatos();
+  }
+
+  loginConGoogle(): void {
+    this.autenticationService.loginConGoogle()
+      .then(cred => {
+        this.loginUsuario = true;
+        this.usuario.username = cred.user?.email ?? '';
+        this.usuarioActual = this.usuario.username;
+        this.uidActual = cred.user?.uid ?? '';
+        this.usuarioEstadoService.loginUsuario(this.usuarioActual);
+        this.usuarioEstadoService.agregarUID(this.uidActual);
+        console.log('es admin antes de actualizar login github:', this.esAdmin);
+        console.log('es admin:', this.esAdmin);
+        // NO LLAMES aquí a actualizarAdminYCargarDatos()
+        Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
+      })
+      .catch(err => {
+        console.error('Error en login con Google:', err);
+        Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
+      });
   }
 
   loginConGitHub(): void {
-  this.autenticationService.loginConGitHub()
-    .then(cred => {
-      // Establece la sesión del usuario en el estado global
-      this.loginUsuario = true;
-      this.usuarioActual = cred.user?.email ?? '';
-      this.usuario.username = this.usuarioActual;
-      this.uidActual = cred.user?.uid ?? '';
-      
-      // Actualiza el estado global del usuario (por ejemplo, con un servicio como usuarioEstadoService)
-      this.usuarioEstadoService.loginUsuario(this.usuarioActual);  // Actualiza el nombre del usuario
-      this.usuarioEstadoService.agregarUID(this.uidActual);  // Guarda el UID en el estado
-
-      // Muestra un mensaje de bienvenida al usuario
-      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
-
-      // Carga los datos del usuario después de iniciar sesión
-      this.cargarDatos();
-    })
-    .catch(err => {
-      console.error('Error en login con GitHub:', err);
-      Swal.fire('Error', 'No se pudo iniciar sesión con GitHub', 'error');
-    });
-}
+    this.autenticationService.loginConGitHub()
+      .then(cred => {
+        this.loginUsuario = true;
+        this.usuario.username = cred.user?.email ?? '';
+        this.usuarioActual = this.usuario.username;
+        this.uidActual = cred.user?.uid ?? '';
+        this.usuarioEstadoService.loginUsuario(this.usuarioActual);
+        this.usuarioEstadoService.agregarUID(this.uidActual);
+        console.log('es admin antes de actualizar login github:', this.esAdmin);
+        console.log('es admin:', this.esAdmin);
+        // NO LLAMES aquí a actualizarAdminYCargarDatos()
+        Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
+      })
+      .catch(err => {
+        console.error('Error en login con GitHub:', err);
+        Swal.fire('Error', 'No se pudo iniciar sesión con GitHub', 'error');
+      });
+  }
 
 
 
