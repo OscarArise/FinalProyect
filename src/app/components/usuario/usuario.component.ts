@@ -22,7 +22,8 @@ import { ChartSolicitudesComponent } from '../chart-solicitudes/chart-solicitude
 })
 export class UsuarioComponent implements OnInit {
 
-  @ViewChild('recaptchaRef', { static: false }) recaptchaRef!: RecaptchaComponent;
+  @ViewChild('recaptchaLoginRef', { static: false }) recaptchaLoginRef?: RecaptchaComponent;
+  @ViewChild('recaptchaRegistroRef', { static: false }) recaptchaRegistroRef?: RecaptchaComponent;
 
   mostrarRegistro: boolean = false;
 
@@ -132,13 +133,16 @@ export class UsuarioComponent implements OnInit {
   private resetCaptcha(): void {
     this.captchaToken = '';
     this.mostrarAlertCaptcha = false;
-    if (this.recaptchaRef) {
-      try {
-        this.recaptchaRef.reset();
-        console.log("reCAPTCHA reiniciado");
-      } catch (error) {
-        console.log("Error al reiniciar reCAPTCHA:", error);
-      }
+    console.log("funcion resetCaptcha llamada, token limpiado");
+
+    // Reinicia el captcha correspondiente según el formulario activo
+    if (!this.mostrarRegistro && this.recaptchaLoginRef) {
+      this.recaptchaLoginRef.reset();
+      console.log("reCAPTCHA de login reiniciado");
+    }
+    if (this.mostrarRegistro && this.recaptchaRegistroRef) {
+      this.recaptchaRegistroRef.reset();
+      console.log("reCAPTCHA de registro reiniciado");
     }
   }
 
@@ -286,53 +290,56 @@ export class UsuarioComponent implements OnInit {
 
     this.http.post('http://localhost:3000/api/login', formData).subscribe({
       next: (response) => {
-        console.log("Login exitoso:", response);
-        Swal.close();
-        
-        this.loginUsuario = true;
-        this.intentosFallidos = 0;
         this.usuarioEstadoService.login(this.usuario.username, this.usuario.password)
         .then(() => {
           this.loginUsuario = true;
           this.cargarDatos();
+          Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido!',
+            text: 'Has iniciado sesión correctamente.',
+            confirmButtonText: 'OK'
+          });
         })
+        .catch(() => {
+          Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error');
+          Swal.close();
+          this.resetCaptcha();
+          this.intentosFallidos++;
+          console.log("Intentos fallidos:", this.intentosFallidos);
+        
+          if (this.intentosFallidos >= 3) {
+            this.bloqueado = true;
+            Swal.fire({
+              icon: 'warning',
+              title: 'Cuenta bloqueada',
+              text: 'Demasiados intentos fallidos. Debes restablecer tu contraseña.',
+              confirmButtonText: 'OK'
+            });
+          } else {
+            const intentosRestantes = 3 - this.intentosFallidos;
+            Swal.fire({
+              icon: 'error',
+              title: 'Error de autenticación',
+              text: `Usuario o contraseña incorrectos. Te quedan ${intentosRestantes} intento(s).`,
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+        console.log("Login exitoso:", response);
+        Swal.close();
         this.resetCaptcha();
 
         console.log("SON LSO DATOS DE USUARIO EN EL HTTP POST DENTRO DEL LOGIN");
         console.log("Usuario logueado:", this.usuario.username);
         console.log("UID actual:", this.uidActual);
         console.log("Datos de usuario:", this.usuario.nombre);
-        
-        Swal.fire({
-          icon: 'success',
-          title: '¡Bienvenido!',
-          text: 'Has iniciado sesión correctamente.',
-          confirmButtonText: 'OK'
-        });
       },
       error: (error) => {
         console.error("Error en login:", error);
         Swal.close();
         this.resetCaptcha();
-        this.intentosFallidos++;
         
-        if (this.intentosFallidos >= 3) {
-          this.bloqueado = true;
-          Swal.fire({
-            icon: 'warning',
-            title: 'Cuenta bloqueada',
-            text: 'Demasiados intentos fallidos. Debes restablecer tu contraseña.',
-            confirmButtonText: 'OK'
-          });
-        } else {
-          const intentosRestantes = 3 - this.intentosFallidos;
-          Swal.fire({
-            icon: 'error',
-            title: 'Error de autenticación',
-            text: `Usuario o contraseña incorrectos. Te quedan ${intentosRestantes} intento(s).`,
-            confirmButtonText: 'OK'
-          });
-        }
       }
       
     });
