@@ -510,45 +510,28 @@ export class UsuarioComponent implements OnInit {
     this.cargarDatos();
   }
 
-  loginConGoogle(): void {
-    this.autenticationService.loginConGoogle()
-      .then(cred => {
-        this.loginUsuario = true;
-        this.usuario.username = cred.user?.email ?? '';
-        this.usuarioActual = this.usuario.username;
-        this.uidActual = cred.user?.uid ?? '';
-        this.usuarioEstadoService.loginUsuario(this.usuarioActual);
-        this.usuarioEstadoService.agregarUID(this.uidActual);
-        console.log('es admin antes de actualizar login github:', this.esAdmin);
-        console.log('es admin:', this.esAdmin);
-        // NO LLAMES aquí a actualizarAdminYCargarDatos()
-        Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
-      })
-      .catch(err => {
-        console.error('Error en login con Google:', err);
-        Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
-      });
-  }
-
-  loginConGitHub(): void {
-    this.autenticationService.loginConGitHub()
-      .then(cred => {
-        this.loginUsuario = true;
-        this.usuario.username = cred.user?.email ?? '';
-        this.usuarioActual = this.usuario.username;
-        this.uidActual = cred.user?.uid ?? '';
-        this.usuarioEstadoService.loginUsuario(this.usuarioActual);
-        this.usuarioEstadoService.agregarUID(this.uidActual);
-        console.log('es admin antes de actualizar login github:', this.esAdmin);
-        console.log('es admin:', this.esAdmin);
-        // NO LLAMES aquí a actualizarAdminYCargarDatos()
-        Swal.fire('¡Bienvenido!', `Sesión iniciada como ${this.usuarioActual}`, 'success');
-      })
-      .catch(err => {
-        console.error('Error en login con GitHub:', err);
-        Swal.fire('Error', 'No se pudo iniciar sesión con GitHub', 'error');
-      });
-  }
+ loginConGoogle(): void {
+  this.usuarioEstadoService.loginConGoogle()
+    .then(cred => {
+      this.loginUsuario = true;
+      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${cred.user?.displayName || cred.user?.email}`, 'success');
+    })
+    .catch(err => {
+      console.error('Error en login con Google:', err);
+      Swal.fire('Error', 'No se pudo iniciar sesión con Google', 'error');
+    });
+}
+loginConGitHub(): void {
+  this.usuarioEstadoService.loginConGitHub()
+    .then(cred => {
+      this.loginUsuario = true;
+      Swal.fire('¡Bienvenido!', `Sesión iniciada como ${cred.user?.displayName || cred.user?.email}`, 'success');
+    })
+    .catch(err => {
+      console.error('Error en login con GitHub:', err);
+      Swal.fire('Error', 'No se pudo iniciar sesión con GitHub', 'error');
+    });
+}
 
   enviarCodigoTelefono() {
     this.autenticationService.initRecaptcha();
