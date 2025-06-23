@@ -321,7 +321,7 @@ export class UsuarioComponent implements OnInit {
       }
     });
 
-    this.http.post('http://localhost:3000/api/login', formData).subscribe({
+    this.http.post('https://nodedeploy-x272.onrender.com/api/login', formData).subscribe({
       next: (response) => {
         this.usuarioEstadoService.login(this.usuario.username, this.usuario.password)
         .then(() => {
@@ -435,7 +435,7 @@ export class UsuarioComponent implements OnInit {
       }
     });
 
-    this.http.post('http://localhost:3000/api/register', formData).subscribe({
+    this.http.post('https://nodedeploy-x272.onrender.com/api/register', formData).subscribe({
       next: (response) => {
         console.log("Registro exitoso:", response);
         Swal.close();

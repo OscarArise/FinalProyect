@@ -8,6 +8,7 @@ import { SuscripcionComponent } from './components/suscripcion/suscripcion.compo
 import { LoaderComponent } from "./shared/loader/loader.component";
 import { CarritoFlotanteComponent } from '../app/components/carrito-flotante/carrito-flotante/carrito-flotante.component';
 import { AccesibilidadComponent } from './components/accesibilidad/accesibilidad.component';
+import { PwaInstallComponent } from './components/pwa-install/pwa-install.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -20,7 +21,8 @@ import { AccesibilidadComponent } from './components/accesibilidad/accesibilidad
     SuscripcionComponent,
     CarritoFlotanteComponent,
     LoaderComponent,
-    AccesibilidadComponent
+    AccesibilidadComponent,
+    PwaInstallComponent
   ],
   template: `<router-outlet />
              <app-carrito-flotante></app-carrito-flotante>

@@ -22,7 +22,7 @@ export class EjerciciosService {
 
   getEjercicios(): Observable<any[]> {
     
-    return this.http.get<any[]>('').pipe(take(1));
+    return this.http.get<any[]>('https://ejercicios9349032.free.beeceptor.com').pipe(take(1));
   }
   //https://ejercicios238934297.free.beeceptor.com 
   //https://ejercicios9349032.free.beeceptor.com

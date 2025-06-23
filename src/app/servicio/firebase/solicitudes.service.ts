@@ -16,7 +16,7 @@ export interface Solicitud {
   providedIn: 'root'
 })
 export class SolicitudesService {
-  private apiUrl = 'http://localhost:3000/api/solicitudes';
+  private apiUrl = 'https://nodedeploy-x272.onrender.com/api/solicitudes';
 
   constructor(private http: HttpClient) { }
 

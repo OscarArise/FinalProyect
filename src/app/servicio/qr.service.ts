@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QrService {
-  private apiUrl = 'http://localhost:3000/api/qr'; // Base URL
+  private apiUrl = 'https://nodedeploy-x272.onrender.com/api/qr'; // Base URL
 
   constructor(private http: HttpClient) {}
 

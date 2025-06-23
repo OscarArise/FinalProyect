@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SolicitudesService {
-  private apiUrl = 'http://localhost:3000/api/solicitudes'; // Ajusta según tu API
+  private apiUrl = 'https://nodedeploy-x272.onrender.com/api/solicitudes'; // Ajusta según tu API
 
   constructor(private http: HttpClient) {}
 
