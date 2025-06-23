@@ -74,28 +74,577 @@ body.contraste-activo button {
   font-family: 'Material Icons' !important;
 }
 
-/* Estilos para modo oscuro */
-.dark {
-  background-color: #1a1a1a !important;
+/* ESTILOS PARA NAVBAR EN MODOS DE CONTRASTE */
+/* Modo oscuro - quitar gradiente del navbar */
+.dark .hidden.lg\:block {
+  background: #000000 !important;
   color: #ffffff !important;
 }
 
-.dark * {
-  color: #ffffff;
+.dark .hidden.lg\:block .text-\[\#C9B243\] {
+  color: #C9B243 !important;
 }
 
-.dark button {
-  background-color: #333333;
-  color: #ffffff;
-  border-color: #555555;
+.dark .hidden.lg\:block .text-\[\#c2ac3f\] {
+  color: #C9B243 !important;
 }
 
+.dark .hidden.lg\:block .text-\[\#6e6329\] {
+  color: #C9B243 !important;
+}
+
+.dark .hidden.lg\:block a:hover {
+  background-color: #C9B243 !important;
+  color: #000000 !important;
+}
+
+/* Modo día - quitar gradiente del navbar */
+.light .hidden.lg\:block {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.light .hidden.lg\:block .text-\[\#C9B243\] {
+  color: #C9B243 !important;
+}
+
+.light .hidden.lg\:block .text-\[\#c2ac3f\] {
+  color: #C9B243 !important;
+}
+
+.light .hidden.lg\:block .text-\[\#6e6329\] {
+  color: #C9B243 !important;
+}
+
+.light .hidden.lg\:block a:hover {
+  background-color: #C9B243 !important;
+  color: #ffffff !important;
+}
+
+/* ESTILOS PARA MODO OSCURO MEJORADO */
+.dark {
+  /* Fondo principal */
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Contenedores principales */
+.dark .min-h-screen {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Excluir elementos específicos del modo oscuro */
+.dark .relative.w-full.h-64,
+.dark .relative.w-full.h-48,
+.dark iframe,
+.dark .flex.w-full.h-full,
+.dark .flex-none.w-full.h-full,
+.dark .flex.transition-transform {
+  background: inherit !important;
+}
+
+/* Formularios y contenedores de contenido */
+.dark .bg-\[\#222222\],
+.dark .bg-\[\#2a2a2a\],
+.dark .bg-\[\#1e1e1e\],
+.dark .bg-\[linear-gradient\(135deg\,_\#333333\,_\#1e1e1e\)\] {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Inputs y textareas */
 .dark input,
 .dark textarea,
 .dark select {
-  background-color: #333333;
-  color: #ffffff;
-  border-color: #555555;
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #C9B243 !important;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #C9B243 !important;
+}
+
+/* Botones principales */
+.dark button:not(.bg-\[\#C9B243\]):not(.bg-green-500):not(.bg-red-500):not(.bg-gray-400) {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #C9B243 !important;
+}
+
+.dark button:not(.bg-\[\#C9B243\]):not(.bg-green-500):not(.bg-red-500):not(.bg-gray-400):hover {
+  background-color: #C9B243 !important;
+  color: #000000 !important;
+}
+
+/* Botones específicos del carrito y acciones */
+.dark .bg-\[\#C9B243\] {
+  background-color: #C9B243 !important;
+  color: #000000 !important;
+}
+
+.dark .bg-\[\#C9B243\]:hover {
+  background-color: #ffffff !important;
+  color: #C9B243 !important;
+}
+
+/* Cards y contenedores de contenido */
+.dark .transform.transition-all,
+.dark .bg-\[linear-gradient\(135deg\,_\#333333\,_\#1e1e1e\)\] {
+  background: #000000 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.dark .transform.transition-all:hover {
+  background: #1a1a1a !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Texto en general */
+.dark * {
+  color: #ffffff !important;
+}
+
+/* Texto de colores específicos */
+.dark .text-\[\#C9B243\] {
+  color: #C9B243 !important;
+}
+
+.dark .text-\[\#cccccc\] {
+  color: #ffffff !important;
+}
+
+.dark .text-white {
+  color: #ffffff !important;
+}
+
+.dark .text-\[\#000\] {
+  color: #ffffff !important;
+}
+
+/* Labels y elementos específicos */
+.dark label {
+  color: #C9B243 !important;
+}
+
+/* Dividers y separadores */
+.dark .bg-white {
+  background-color: #C9B243 !important;
+}
+
+/* MODO DÍA (Fondo blanco, texto negro) */
+.light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.light .min-h-screen {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Contenedores en modo día */
+.light .bg-\[\#222222\],
+.light .bg-\[\#2a2a2a\],
+.light .bg-\[\#1e1e1e\],
+.light .bg-\[linear-gradient\(135deg\,_\#333333\,_\#1e1e1e\)\] {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+/* Inputs en modo día */
+.light input,
+.light textarea,
+.light select {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border-color: #C9B243 !important;
+}
+
+/* Botones en modo día */
+.light button:not(.bg-\[\#C9B243\]):not(.bg-green-500):not(.bg-red-500):not(.bg-gray-400) {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border-color: #C9B243 !important;
+}
+
+.light button:not(.bg-\[\#C9B243\]):not(.bg-green-500):not(.bg-red-500):not(.bg-gray-400):hover {
+  background-color: #C9B243 !important;
+  color: #ffffff !important;
+}
+
+/* Cards en modo día */
+.light .transform.transition-all {
+  background: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.light .transform.transition-all:hover {
+  background: #f8f8f8 !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Texto en modo día */
+.light * {
+  color: #000000 !important;
+}
+
+.light .text-\[\#C9B243\] {
+  color: #C9B243 !important;
+}
+
+.light .text-\[\#cccccc\] {
+  color: #000000 !important;
+}
+
+.light .text-white {
+  color: #000000 !important;
+}
+
+.light label {
+  color: #C9B243 !important;
+}
+
+/* =================================== */
+/* ESTILOS ESPECÍFICOS PARA FOOTER */
+/* =================================== */
+
+/* Footer en modo normal (conserva estilos originales) */
+footer {
+  transition: all 0.3s ease;
+}
+
+/* Footer en modo oscuro */
+.dark footer {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark footer * {
+  color: #ffffff !important;
+}
+
+.dark footer h3 {
+  color: #C9B243 !important;
+}
+
+.dark footer a {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+
+.dark footer a:hover {
+  color: #C9B243 !important;
+}
+
+.dark footer .par1,
+.dark footer .par2,
+.dark footer .par2-1,
+.dark footer .pas2-1,
+.dark footer .redes {
+  background-color: transparent !important;
+}
+
+.dark footer .redes i {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+
+.dark footer .redes i:hover {
+  color: #C9B243 !important;
+}
+
+/* Footer en modo claro/contraste */
+.light footer {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.light footer * {
+  color: #000000 !important;
+}
+
+.light footer h3 {
+  color: #C9B243 !important;
+}
+
+.light footer a {
+  color: #000000 !important;
+  transition: color 0.3s ease;
+}
+
+.light footer a:hover {
+  color: #C9B243 !important;
+}
+
+.light footer .par1,
+.light footer .par2,
+.light footer .par2-1,
+.light footer .pas2-1,
+.light footer .redes {
+  background-color: transparent !important;
+}
+
+.light footer .redes i {
+  color: #000000 !important;
+  transition: color 0.3s ease;
+}
+
+.light footer .redes i:hover {
+  color: #C9B243 !important;
+}
+
+/* =================================== */
+/* ESTILOS ESPECÍFICOS PARA USUARIO */
+/* =================================== */
+
+/* Componente usuario en modo normal (conserva gradientes) */
+/* No necesita estilos específicos aquí, usa los originales */
+
+/* Componente usuario en modo oscuro - SIN GRADIENTES */
+.dark .container {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark .formulario {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+  /* Quitar cualquier gradiente */
+  background-image: none !important;
+}
+
+.dark .text-oro {
+  color: #C9B243 !important;
+}
+
+.dark .text-blanco {
+  color: #ffffff !important;
+}
+
+.dark .btn-enviar {
+  background-color: #C9B243 !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+  /* Quitar gradientes */
+  background-image: none !important;
+}
+
+.dark .btn-enviar:hover {
+  background-color: #ffffff !important;
+  color: #C9B243 !important;
+  border: 1px solid #ffffff !important;
+}
+
+.dark .btn-editar {
+  background-color: #4CAF50 !important;
+  color: #ffffff !important;
+  border: 1px solid #4CAF50 !important;
+  background-image: none !important;
+}
+
+.dark .btn-eliminar {
+  background-color: #f44336 !important;
+  color: #ffffff !important;
+  border: 1px solid #f44336 !important;
+  background-image: none !important;
+}
+
+.dark .btn-cancelar {
+  background-color: #9e9e9e !important;
+  color: #ffffff !important;
+  border: 1px solid #9e9e9e !important;
+  background-image: none !important;
+}
+
+/* Tablas en modo oscuro */
+.dark .tabla-oro {
+  background-color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.dark .tabla-oro th {
+  background-color: #1a1a1a !important;
+  color: #C9B243 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.dark .tabla-oro td {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.dark .tabla-oro tr:hover {
+  background-color: #1a1a1a !important;
+}
+
+.dark .input-tabla {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.dark .textarea-tabla {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.dark .checkbox-tabla {
+  accent-color: #C9B243 !important;
+}
+
+.dark .tabla-container {
+  background-color: #000000 !important;
+}
+
+.dark .titulo-seccion {
+  color: #C9B243 !important;
+}
+
+.dark .mensaje {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Error messages en modo oscuro */
+.dark .error-message {
+  color: #ff6b6b !important;
+}
+
+/* Alerts en modo oscuro */
+.dark .alert {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+}
+
+/* Componente usuario en modo claro - SIN GRADIENTES */
+.light .container {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.light .formulario {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+  /* Quitar cualquier gradiente */
+  background-image: none !important;
+}
+
+.light .text-oro {
+  color: #C9B243 !important;
+}
+
+.light .text-blanco {
+  color: #000000 !important;
+}
+
+.light .btn-enviar {
+  background-color: #C9B243 !important;
+  color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+  /* Quitar gradientes */
+  background-image: none !important;
+}
+
+.light .btn-enviar:hover {
+  background-color: #000000 !important;
+  color: #C9B243 !important;
+  border: 1px solid #000000 !important;
+}
+
+.light .btn-editar {
+  background-color: #4CAF50 !important;
+  color: #ffffff !important;
+  border: 1px solid #4CAF50 !important;
+  background-image: none !important;
+}
+
+.light .btn-eliminar {
+  background-color: #f44336 !important;
+  color: #ffffff !important;
+  border: 1px solid #f44336 !important;
+  background-image: none !important;
+}
+
+.light .btn-cancelar {
+  background-color: #9e9e9e !important;
+  color: #ffffff !important;
+  border: 1px solid #9e9e9e !important;
+  background-image: none !important;
+}
+
+/* Tablas en modo claro */
+.light .tabla-oro {
+  background-color: #ffffff !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.light .tabla-oro th {
+  background-color: #f8f8f8 !important;
+  color: #C9B243 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.light .tabla-oro td {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.light .tabla-oro tr:hover {
+  background-color: #f8f8f8 !important;
+}
+
+.light .input-tabla {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.light .textarea-tabla {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
+}
+
+.light .checkbox-tabla {
+  accent-color: #C9B243 !important;
+}
+
+.light .tabla-container {
+  background-color: #ffffff !important;
+}
+
+.light .titulo-seccion {
+  color: #C9B243 !important;
+}
+
+.light .mensaje {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Error messages en modo claro */
+.light .error-message {
+  color: #d32f2f !important;
+}
+
+/* Alerts en modo claro */
+.light .alert {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border: 1px solid #C9B243 !important;
 }
 
 /* Transiciones suaves */
@@ -104,5 +653,5 @@ body {
 }
 
 * {
-  transition: font-family 0.2s ease;
+  transition: font-family 0.2s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
