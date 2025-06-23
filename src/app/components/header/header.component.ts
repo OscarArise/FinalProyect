@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UsuarioEstadoService } from '../../servicio/estado/usuario-estado.service';
+
 
 @Component({
   selector: 'app-header',
@@ -17,7 +19,13 @@ export class HeaderComponent {
 
   usuario: string = ''; // Aquí deberías obtener el usuario del servicio
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private usuarioEstadoService : UsuarioEstadoService) {}
+
+ngOnInit() {
+    this.usuarioEstadoService.usuario$.subscribe(usuario => {
+      this.usuario = usuario;
+    });
+  }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
@@ -27,3 +35,8 @@ export class HeaderComponent {
     this.actionSelected.emit(action);
   }
 }
+
+
+
+
+
