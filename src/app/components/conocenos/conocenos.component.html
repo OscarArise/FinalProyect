@@ -24,12 +24,12 @@
       <div class="bg-[#1e1e1e] p-4 sm:p-6 rounded-lg shadow-md transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:border hover:border-[#C9B243]">
         <img [src]="entrenador.imagen" alt="{{ entrenador.nombre }}" 
              class="w-full h-48 sm:h-56 md:h-64 lg:h-80 object-cover rounded mb-3 border border-[#2a2a2a]">
-        <h3 class="text-[#C9B243] mb-2 text-base sm:text-lg font-bold tracking-wide">{{ entrenador.nombre }}</h3>
-        <p class="text-[#cccccc] text-sm">{{ entrenador.especialidad }}</p>
+        <h3 class="text-[#C9B243] mb-2 text-base sm:text-lg font-bold tracking-wide">{{ entrenador.nombre | titlecase }}</h3>
+        <p class="text-[#cccccc] text-sm">{{ entrenador.especialidad | titlecase }}</p>
         <h4 class="text-[#C9B243] mt-3 mb-2 font-medium text-sm">Clases:</h4>
         <ul class="list-disc list-inside text-[#cccccc] text-xs sm:text-sm space-y-1">
           @for(clase of entrenador.clases; track clase) {
-            <li>{{ clase }}</li>
+            <li>{{ clase | titlecase }}</li>
           }
         </ul>
       </div>

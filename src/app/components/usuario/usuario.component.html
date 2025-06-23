@@ -401,7 +401,7 @@
                   <td>{{suscripcion.id}}</td>
                   <td>{{suscripcion.telefono}}</td>
                   <td>{{suscripcion.claseSeleccionada}}</td>
-                  <td>{{suscripcion.fecha}}</td>
+                  <td>{{ suscripcion.fecha | date:'dd/MM/yyyy' }}</td>
                   <td>{{suscripcion.publicidad ? 'Sí' : 'No'}}</td>
                   <td>
                     <button (click)="editarSuscripcion(i)" class="btn-editar btn-small">Editar</button>

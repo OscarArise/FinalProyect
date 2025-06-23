@@ -48,7 +48,7 @@
           <h3 class="text-white mb-3 text-lg sm:text-xl font-semibold">{{ clase.nombre }}</h3>
           <p class="text-[#cccccc] mb-2 text-sm sm:text-base">{{ clase.descripcion }}</p>
           <p class="text-white mb-2 text-sm sm:text-base">{{ clase.horario }}</p>
-          <p class="text-[#C9B243] font-bold mb-3 text-base sm:text-lg">${{ clase.precio }}</p>
+          <p class="text-[#C9B243] font-bold mb-3 text-base sm:text-lg">{{ clase.precio | currency:'USD':'symbol':'1.2-2' }}</p>
           
           <h4 class="text-[#C9B243] mt-3 mb-2 font-medium text-sm sm:text-base">Entrenadores:</h4>
           <ul class="mb-4 text-sm sm:text-base">
