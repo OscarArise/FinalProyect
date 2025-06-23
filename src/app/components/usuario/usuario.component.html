@@ -2,7 +2,8 @@
 @if (!loginUsuario) {
   <div class="container">
     <!-- Formulario de Login -->
-    <div class="formulario" *ngIf="!mostrarRegistro">
+    @if(!mostrarRegistro){
+    <div class="formulario">
       <form>
         <div class="form-group">
           <label for="usuario" class="text-oro">Ingresa tu email *</label>
@@ -14,11 +15,13 @@
             placeholder="Ingresa tu nombre de usuario"
             #username="ngModel"
           />
-          <div *ngIf="username.invalid && username.touched" class="error-message">
-            El nombre de usuario es requerido
-          </div>
+          @if(username.invalid && username.touched){
+          	<div class="error-message">
+           	 El nombre de usuario es requerido
+          	</div>
+          }
         </div>
-
+		
         <div class="form-group">
           <label for="password" class="text-oro">Contraseña *</label>
           <input 
@@ -29,9 +32,11 @@
             placeholder="Ingresa tu contraseña"
             #password="ngModel"
           />
-          <div *ngIf="password.invalid && password.touched" class="error-message">
-            La contraseña es requerida
-          </div>
+          @if (password.invalid && password.touched) {
+            <div class="error-message">
+              La contraseña es requerida
+            </div>
+          }
         </div>
 
         <!-- reCAPTCHA con referencia para acceso desde el componente -->
@@ -42,13 +47,12 @@
         </re-captcha>
 
         <!-- Alert de Bootstrap para Captcha en Login -->
-        <div class="alert alert-warning alert-dismissible fade show mt-3" 
-             role="alert" 
-             *ngIf="mostrarAlertCaptcha">
+        @if(mostrarAlertCaptcha){
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert" >
           <i class="fas fa-exclamation-triangle me-2"></i>
           <strong>¡Atención!</strong> Por favor resuelve el reCAPTCHA para continuar.
         </div>
-
+		}
         <button type="button" class="btn-enviar" (click)="login()">Enviar</button>
 
         <p class="text-oro">O bien usa otra opción de inicio de sesión:</p>
@@ -70,11 +74,12 @@
         <button type="button" class="btn-enviar" (click)="enviarCodigoTelefono()">Enviar código SMS</button>
         <div id="recaptcha-container"></div>
       </div>
-      <div *ngIf="mostrarCodigo" class="form-group">
+      @if (mostrarCodigo) {
+      <div class="form-group">
         <input type="text" [(ngModel)]="codigoSMS" placeholder="Código SMS" name="codigoSMS" />
         <button type="button" class="btn-enviar" (click)="verificarCodigoTelefono()">Verificar código</button>
       </div>
-    
+   	  }
 
       <!-- Enlace para mostrar el formulario de registro -->
       <p class="text-oro">
@@ -82,11 +87,13 @@
         <a href="javascript:void(0)" (click)="toggleRegistro()">Regístrate aquí</a>
       </p>
     </div>
-
+	}
     <hr />
 
     <!-- Formulario de Registro de Usuario -->
-    <div class="formulario" *ngIf="mostrarRegistro">
+
+    @if(mostrarRegistro){
+    <div class="formulario">
       <form>
         <h2 class="text-oro">Registro de nuevo usuario</h2>
 
@@ -100,9 +107,11 @@
             placeholder="Ingresa tu nombre completo"
             #nombreCompleto="ngModel"
           />
-          <div *ngIf="nombreCompleto.invalid && nombreCompleto.touched" class="error-message">
-            El nombre completo es requerido
-          </div>
+          @if (nombreCompleto.invalid && nombreCompleto.touched) {
+            <div class="error-message">
+              Tu nombre completo es requerido
+            </div>
+          }
         </div>
 
         <div class="form-group">
@@ -115,10 +124,16 @@
             placeholder="ejemplo@correo.com"
             #nuevoEmail="ngModel"
           />
-          <div *ngIf="nuevoEmail.invalid && nuevoEmail.touched" class="error-message">
-            <span *ngIf="nuevoEmail.errors?.['required']">El correo electrónico es requerido</span>
-            <span *ngIf="nuevoEmail.errors?.['email']">Ingresa un correo electrónico válido</span>
-          </div>
+ 		@if (nuevoEmail.invalid && nuevoEmail.touched) {
+ 		  <div class="error-message">
+ 		    @if (nuevoEmail.errors?.['required']) {
+ 		      <span>El correo electrónico es requerido</span>
+ 		    }
+ 		    @if (nuevoEmail.errors?.['email']) {
+ 		      <span>Ingresa un correo electrónico válido</span>
+ 		    }
+ 		  </div>
+ 		}
         </div>
 
         <div class="form-group">
@@ -132,10 +147,16 @@
             minlength="6"
             #nuevoPassword="ngModel"
           />
-          <div *ngIf="nuevoPassword.invalid && nuevoPassword.touched" class="error-message">
-            <span *ngIf="nuevoPassword.errors?.['required']">La contraseña es requerida</span>
-            <span *ngIf="nuevoPassword.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</span>
-          </div>
+		@if (nuevoPassword.invalid && nuevoPassword.touched) {
+		  <div class="error-message">
+		    @if (nuevoPassword.errors?.['required']) {
+		      <span>La contraseña es requerida</span>
+		    }
+		    @if (nuevoPassword.errors?.['minlength']) {
+		      <span>La contraseña debe tener al menos 6 caracteres</span>
+		    }
+		  </div>
+		}
         </div>
 
         <div class="form-group">
@@ -148,12 +169,16 @@
             placeholder="Confirma tu contraseña"
             #confirmarPassword="ngModel"
           />
-          <div *ngIf="confirmarPassword.invalid && confirmarPassword.touched" class="error-message">
+        @if (confirmarPassword.invalid && confirmarPassword.touched) {
+          <div class="error-message">
             La confirmación de contraseña es requerida
           </div>
-          <div *ngIf="nuevoUsuario.password !== nuevoUsuario.confirmarPassword && confirmarPassword.touched && nuevoUsuario.confirmarPassword" class="error-message">
+        }
+        @if (nuevoUsuario.password !== nuevoUsuario.confirmarPassword && confirmarPassword.touched && nuevoUsuario.confirmarPassword) {
+          <div class="error-message">
             Las contraseñas no coinciden
           </div>
+        }
         </div>
 
         <!-- reCAPTCHA con referencia -->
@@ -164,12 +189,13 @@
         </re-captcha>
 
         <!-- Alert de Bootstrap para Captcha en Registro -->
-        <div class="alert alert-warning alert-dismissible fade show mt-3" 
-             role="alert" 
-             *ngIf="mostrarAlertCaptcha">
-          <i class="fas fa-exclamation-triangle me-2"></i>
-          <strong>¡Atención!</strong> Por favor resuelve el reCAPTCHA para continuar.
-        </div>
+		@if (mostrarAlertCaptcha) {
+		  <div class="alert alert-warning alert-dismissible fade show mt-3" 
+		       role="alert">
+		    <i class="fas fa-exclamation-triangle me-2"></i>
+		    <strong>¡Atención!</strong> Por favor resuelve el reCAPTCHA para continuar.
+		  </div>
+		}
 
         <button type="button" class="btn-enviar" (click)="registrar()">Registrar</button>
 
@@ -180,8 +206,10 @@
         </p>
       </form>
     </div>
+    }
   </div>
-
+  
+  
   @if (bloqueado) {
     <!-- Formulario de Restablecer Contraseña -->
     <div class="container">
