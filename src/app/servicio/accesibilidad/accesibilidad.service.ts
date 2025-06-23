@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 export interface AccesibilidadState {
   fonteDislexia: boolean;
   tamanoTexto: number;
-  modoNoche: boolean;
+  modoNoche: 'normal' | 'dark' | 'light';
   leyendoPantalla: boolean;
 }
 
@@ -20,7 +20,7 @@ export class AccesibilidadService {
   private stateSubject = new BehaviorSubject<AccesibilidadState>({
     fonteDislexia: false,
     tamanoTexto: this.TAMANO_TEXTO_DEFAULT,
-    modoNoche: false,
+    modoNoche: 'normal',
     leyendoPantalla: false
   });
 
@@ -42,7 +42,6 @@ export class AccesibilidadService {
       fonteDislexia: !this.currentState.fonteDislexia
     };
     
-    // CORRECCIÓN: Usar la misma clase que en el componente
     if (newState.fonteDislexia) {
       document.body.classList.add('texto-dislexia');
     } else {
@@ -70,18 +69,43 @@ export class AccesibilidadService {
     this.updateState(newState);
   }
 
-  // Toggle modo noche/contraste
+  // Toggle modo noche/contraste - CORREGIDO: Ahora usa las clases correctas
   toggleModoNoche(): void {
+    let nuevoModo: 'normal' | 'dark' | 'light';
+    
+    switch (this.currentState.modoNoche) {
+      case 'normal':
+        nuevoModo = 'dark';
+        break;
+      case 'dark':
+        nuevoModo = 'light';
+        break;
+      case 'light':
+        nuevoModo = 'normal';
+        break;
+      default:
+        nuevoModo = 'dark';
+    }
+    
     const newState = {
       ...this.currentState,
-      modoNoche: !this.currentState.modoNoche
+      modoNoche: nuevoModo
     };
     
-    // CORRECCIÓN: Usar la misma lógica que en el componente
-    if (newState.modoNoche) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    // CORREGIDO: Remover todas las clases de modo (incluyendo las correctas)
+    document.body.classList.remove('dark', 'light', 'contraste-activo');
+    
+    // CORREGIDO: Aplicar las clases correctas que coinciden con el CSS
+    switch (nuevoModo) {
+      case 'dark':
+        document.body.classList.add('dark');
+        break;
+      case 'light':
+        document.body.classList.add('light');
+        break;
+      default:
+        // 'normal' - no additional classes needed
+        break;
     }
     
     this.updateState(newState);
@@ -198,11 +222,9 @@ export class AccesibilidadService {
 
   private updateState(newState: AccesibilidadState): void {
     this.stateSubject.next(newState);
-    // AGREGAR: Guardar el estado en localStorage
     this.guardarEstado(newState);
   }
 
-  // AGREGAR: Método para cargar estado guardado
   private cargarEstadoGuardado(): void {
     const estadoGuardado = localStorage.getItem('estadoAccesibilidad');
     if (estadoGuardado) {
@@ -214,8 +236,16 @@ export class AccesibilidadService {
           document.body.classList.add('texto-dislexia');
         }
         
+        // CORREGIDO: Aplicar las clases correctas al cargar
         if (estado.modoNoche) {
-          document.documentElement.classList.add('dark');
+          switch (estado.modoNoche) {
+            case 'dark':
+              document.body.classList.add('dark');
+              break;
+            case 'light':
+              document.body.classList.add('light');
+              break;
+          }
         }
         
         if (estado.tamanoTexto && estado.tamanoTexto !== this.TAMANO_TEXTO_DEFAULT) {
@@ -229,7 +259,6 @@ export class AccesibilidadService {
     }
   }
 
-  // AGREGAR: Método para guardar estado
   private guardarEstado(estado: AccesibilidadState): void {
     try {
       localStorage.setItem('estadoAccesibilidad', JSON.stringify(estado));
@@ -240,9 +269,8 @@ export class AccesibilidadService {
 
   // Restablecer toda la configuración
   restablecerTodo(): void {
-    // CORRECCIÓN: Usar las mismas clases que en el componente
-    document.body.classList.remove('texto-dislexia');
-    document.documentElement.classList.remove('dark');
+    // CORREGIDO: Limpiar todas las clases correctas
+    document.body.classList.remove('texto-dislexia', 'dark', 'light', 'contraste-activo');
     document.documentElement.style.fontSize = `${this.TAMANO_TEXTO_DEFAULT}px`;
     
     if (this.currentState.leyendoPantalla) {
@@ -252,7 +280,7 @@ export class AccesibilidadService {
     const defaultState: AccesibilidadState = {
       fonteDislexia: false,
       tamanoTexto: this.TAMANO_TEXTO_DEFAULT,
-      modoNoche: false,
+      modoNoche: 'normal',
       leyendoPantalla: false
     };
 
