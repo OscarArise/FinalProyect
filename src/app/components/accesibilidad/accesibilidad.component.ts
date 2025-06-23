@@ -16,7 +16,7 @@ export class AccesibilidadComponent implements OnInit, OnDestroy {
   estado: AccesibilidadState = {
     fonteDislexia: false,
     tamanoTexto: 16,
-    modoNoche: false,
+    modoNoche: 'normal', // Fixed: Now matches the service interface
     leyendoPantalla: false
   };
   mostrarIndicador = false;
@@ -72,5 +72,39 @@ export class AccesibilidadComponent implements OnInit, OnDestroy {
   private mostrarIndicadorTexto() {
     this.mostrarIndicador = true;
     setTimeout(() => this.mostrarIndicador = false, 2000);
+  }
+
+  // Métodos helper para el template
+  getModoNocheIcon(): string {
+    switch (this.estado.modoNoche) {
+      case 'dark':
+        return 'light_mode';
+      case 'light':
+        return 'contrast';
+      default:
+        return 'dark_mode';
+    }
+  }
+
+  getModoNocheTooltip(): string {
+    switch (this.estado.modoNoche) {
+      case 'dark':
+        return 'Modo Contraste';
+      case 'light':
+        return 'Modo Normal';
+      default:
+        return 'Modo Noche';
+    }
+  }
+
+  getModoNocheClass(): string {
+    switch (this.estado.modoNoche) {
+      case 'dark':
+        return 'bg-blue-600 border-blue-600 text-white';
+      case 'light':
+        return 'bg-yellow-500 border-yellow-500 text-black';
+      default:
+        return 'bg-[#2a2a2a] text-white border-[#C9B243] hover:bg-[#C9B243] hover:text-white';
+    }
   }
 }
