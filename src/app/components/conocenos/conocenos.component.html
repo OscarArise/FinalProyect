@@ -64,8 +64,11 @@
       <button
         type="submit"
         class="w-full sm:w-auto bg-[#C9B243] text-[#1e1e1e] font-semibold py-3 px-6 rounded transition duration-300 hover:bg-white hover:text-[#C9B243] disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base">
-        <span *ngIf="!enviandoCorreo">Enviar</span>
-        <span *ngIf="enviandoCorreo">Enviando...</span>
+         @if (!enviandoCorreo) {
+            <span>Enviar</span>
+          } @else {
+            <span>Enviando...</span>
+          }
       </button>
     </form>
   </div>
