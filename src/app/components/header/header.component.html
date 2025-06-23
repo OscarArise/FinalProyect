@@ -49,8 +49,11 @@
         <button mat-menu-item (click)="navigateTo('/usuario')" 
                 class="menu-item-custom">
           <mat-icon>person</mat-icon>
-          <span *ngIf="usuario === '' || usuario === undefined || usuario === null">Usuario</span>
-          <span *ngIf="usuario !== '' && usuario !== undefined && usuario !== null">Hola! {{usuario}}</span>
+          @if (usuario) {
+			      <span>Hola! {{ usuario }}</span>
+			    } @else {
+			      <span>Usuario</span>
+			    }
         </button>
       </mat-menu>
     </mat-toolbar>
