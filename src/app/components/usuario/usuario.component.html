@@ -63,6 +63,17 @@
 
       </form>
 
+      <!-- Nueva opción de inicio de sesión con teléfono -->
+      <div class="form-group">
+        <label class="text-oro">O inicia sesión con tu teléfono</label>
+        <input type="text" [(ngModel)]="telefono" placeholder="Ej: +521234567890" name="telefono" />
+        <button type="button" class="btn-enviar" (click)="enviarCodigoTelefono()">Enviar código SMS</button>
+        <div id="recaptcha-container"></div>
+      </div>
+      <div *ngIf="mostrarCodigo" class="form-group">
+        <input type="text" [(ngModel)]="codigoSMS" placeholder="Código SMS" name="codigoSMS" />
+        <button type="button" class="btn-enviar" (click)="verificarCodigoTelefono()">Verificar código</button>
+      </div>
     
 
       <!-- Enlace para mostrar el formulario de registro -->
