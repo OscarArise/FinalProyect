@@ -21,7 +21,6 @@ body.contraste-activo button {
 }
 
 /* Importar fuentes para dislexia */
-@import url('https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap');
 
 /* Fallback para OpenDyslexic si Google Fonts falla */
 @font-face {

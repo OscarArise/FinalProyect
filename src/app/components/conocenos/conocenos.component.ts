@@ -19,7 +19,7 @@ export class ConocenosComponent {
   enviandoCorreo: boolean = false;
 
   // URL base de tu API (ajusta según tu configuración)
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://nodedeploy-x272.onrender.com/api';
 
   constructor(
     private http: HttpClient,
