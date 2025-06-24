@@ -383,77 +383,28 @@ export class UsuarioComponent implements OnInit {
     console.log('UID actual:', this.uidActual);
   }
 
-  registrar(): void {
-    if (!this.nuevoUsuario.nombre || this.nuevoUsuario.nombre.trim() === '') {
-      Swal.fire('Error', 'El nombre completo es obligatorio.', 'error');
+registrar(): void {
+    if (!this.nuevoUsuario.nombre || !this.nuevoUsuario.email || !this.nuevoUsuario.password || !this.nuevoUsuario.confirmarPassword) {
+      Swal.fire('Error', 'Todos los campos son obligatorios.', 'error');
       return;
     }
-
-    if (!this.nuevoUsuario.email || this.nuevoUsuario.email.trim() === '') {
-      Swal.fire('Error', 'El correo electrónico es obligatorio.', 'error');
-      return;
-    }
-
-    if (!this.nuevoUsuario.password || this.nuevoUsuario.password.trim() === '') {
-      Swal.fire('Error', 'La contraseña es obligatoria.', 'error');
-      return;
-    }
-
-    if (!this.nuevoUsuario.confirmarPassword || this.nuevoUsuario.confirmarPassword.trim() === '') {
-      Swal.fire('Error', 'Debes confirmar tu contraseña.', 'error');
-      return;
-    }
-
     if (this.nuevoUsuario.password !== this.nuevoUsuario.confirmarPassword) {
       Swal.fire('Error', 'Las contraseñas no coinciden.', 'error');
       return;
     }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.nuevoUsuario.email)) {
-      Swal.fire('Error', 'Por favor ingresa un correo electrónico válido.', 'error');
-      return;
-    }
-
-    if (!this.captchaToken || this.captchaToken.trim() === '') {
-      this.mostrarAlertCaptchaBootstrap();
-      return;
-    }
-
-    const formData = {
-      nombre: this.nuevoUsuario.nombre,
-      email: this.nuevoUsuario.email,
-      password: this.nuevoUsuario.password,
-      recaptchaToken: this.captchaToken,
-    };
-
-    Swal.fire({
-      title: 'Registrando usuario...',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-
-    this.http.post('https://nodedeploy-x272.onrender.com/api/register', formData).subscribe({
-      next: (response) => {
-        console.log("Registro exitoso:", response);
-        Swal.close();
-        
+    this.autenticationService.registrar(
+      this.nuevoUsuario.email,
+      this.nuevoUsuario.password,
+      this.nuevoUsuario.nombre
+    )
+      .then(() => {
         Swal.fire('¡Registrado!', 'Usuario creado correctamente. Ahora puedes iniciar sesión.', 'success');
         this.nuevoUsuario = { nombre: '', email: '', password: '', confirmarPassword: '' };
-        this.resetCaptcha();
-        this.mostrarRegistro = false;
-      },
-      error: (error) => {
-        console.error("Error en registro:", error);
-        Swal.close();
-        this.resetCaptcha();
-        Swal.fire('Error', error.error?.message || 'Error al registrar usuario', 'error');
-      }
-    });
-  }
-
+      })
+      .catch(err => {
+        Swal.fire('Error', err.message, 'error');
+      });
+  }
   cambiarPassword(): void {
     if (!this.resetForm.email) {
       Swal.fire('Error', 'El correo es obligatorio.', 'error');
